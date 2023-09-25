@@ -1,5 +1,7 @@
 package jhproject.datascraper.population;
 
+import jhproject.datascraper.population.scraper.PopulationScrapYearMonth;
+import jhproject.datascraper.population.scraper.PopulationScraper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,27 +13,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PopulationDataProcessor {
 
-    private final LocalDate FIRST_MONTH = LocalDate.of(2022, 10, 1);
-
-    private final PopulationDataScraper populationDataScraper;
+    private final PopulationScraper populationScraper;
     private final PopulationDataRegister populationDataService;
 
     public void run() {
 //        최초일(2022.10) 부터 지난달 까지 수집
-        LocalDate lastMonth = getLastMonth();
-        var currentMonth = FIRST_MONTH;
-
-        while (currentMonth.isBefore(lastMonth)) {
-            run(currentMonth);
-            currentMonth = currentMonth.plusMonths(1);
+        PopulationScrapYearMonth yearMonth = PopulationScrapYearMonth.FIRST_YEAR_MONTH;
+        while (!yearMonth.isLastMonth()) {
+            run(yearMonth);
+            yearMonth = yearMonth.nextMonth();
         }
     }
 
     
     @Transactional
-    private void run(LocalDate currentMonth) {
-        List<Population> populations = populationDataScraper.scrap(currentMonth);
-        populationDataService.save(currentMonth, populations);
+    private void run(PopulationScrapYearMonth yearMonth) {
+        List<Population> populations = populationScraper.scrap(yearMonth);
+        populationDataService.save(yearMonth, populations);
     }
 
 
