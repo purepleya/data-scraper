@@ -3,7 +3,9 @@ package jhproject.datascraper.population;
 import lombok.NonNull;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class PopulationDataScraper {
 
@@ -17,20 +19,41 @@ public class PopulationDataScraper {
     }
 
 
-    public static class PopulationScrapYearMonth {
-//        TODO: isValidate 메서드
-//        TODO: getYearMonth 메서드(String 타입 yyyyMM 리턴)
+
+
+    public static class PopulationDataScraperYearMonth {
+        private static final LocalDate FIRST_DATE = LocalDate.of(2022, 10, 1);
+        public static final PopulationDataScraperYearMonth FIRST_YEAR_MONTH = new PopulationDataScraperYearMonth(FIRST_DATE);
+
         private final LocalDate yearMonth;
 
-        public static PopulationScrapYearMonth of(@NonNull LocalDate yearMonth) {
-            return new PopulationScrapYearMonth(yearMonth);
+        public static PopulationDataScraperYearMonth of(@NonNull LocalDate yearMonth) {
+            return new PopulationDataScraperYearMonth(yearMonth);
         }
 
-        private PopulationScrapYearMonth(LocalDate yearMonth) {
+        private PopulationDataScraperYearMonth(LocalDate yearMonth) {
+            if (yearMonth.isBefore(FIRST_DATE) || yearMonth.isAfter(LocalDate.now().withDayOfMonth(1).minusDays(1))) {
+                throw new IllegalArgumentException("유효하지 않은 년월(" + yearMonth.format(DateTimeFormatter.ISO_DATE) + ")입니다.");
+            }
+
             this.yearMonth = yearMonth;
         }
 
+        public String getYearMonth() {
+            return yearMonth.format(DateTimeFormatter.ofPattern("yyyyMM"));
+        }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PopulationDataScraperYearMonth that = (PopulationDataScraperYearMonth) o;
+            return Objects.equals(getYearMonth(), that.getYearMonth());
+        }
+
+        public PopulationDataScraperYearMonth nextMonth() {
+            return new PopulationDataScraperYearMonth(yearMonth.plusMonths(1));
+        }
     }
 
 }

@@ -16,7 +16,7 @@ public class ApplicationEventListener {
 
     @EventListener({ContextRefreshedEvent.class})
     public void handleRefreshEvent() {
-        populationScrapProcessor.scrap();
+        populationScrapProcessor.run();
     }
 
 
