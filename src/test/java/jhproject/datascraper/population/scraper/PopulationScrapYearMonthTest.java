@@ -36,29 +36,15 @@ class PopulationScrapYearMonthTest {
     }
 
     @Test
-    @DisplayName("최초 수집월(FIRST_YEAR_MONTH) 이전 날짜는 유효성 오류가 발생한다.")
-    void isValidate_shouldThrowException_whenBeforeFirstYearMonth() {
-        assertThrows(IllegalArgumentException.class, () -> PopulationScrapYearMonth.of(LocalDate.of(2022, 9, 1)));
+    @DisplayName("최초 수집 년월(2022년 10월) 이전 달은 invalid 하다.")
+    void isValidate_shouldReturn_false_whenBeforeFirstYearMonth() {
+        assertFalse(PopulationScrapYearMonth.of(LocalDate.of(2022, 9, 1)).isValidate());
     }
 
     @Test
-    @DisplayName("현재 년월 이후 날짜는 유효성 오류가 발생한다.")
-    void isValidate_shouldThrowException_whenAfterCurrentYearMonth() {
-        assertThrows(IllegalArgumentException.class, () -> PopulationScrapYearMonth.of(LocalDate.now()));
-        assertThrows(IllegalArgumentException.class, () -> PopulationScrapYearMonth.of(LocalDate.now().plusMonths(1)));
-    }
-
-    @Test
-    @DisplayName("nextMonth() 메서드로 유효하지 않은 달이 생성되면 유효성 오류가 발생한다.")
-    void isValidate_shouldThrowException_whenNextMonthIsInvalid() {
-        assertThrows(IllegalArgumentException.class, () -> PopulationScrapYearMonth.of(LocalDate.now().minusMonths(1)).nextMonth());
-    }
-
-    @Test
-    @DisplayName("수집할 수 있는 마지막 달 일경우 isLastMonth() 메서드는 true를 리턴한다.")
-    void isLastMonth_shouldReturn_true_whenLastMonth() {
-        assertTrue(PopulationScrapYearMonth.of(LocalDate.now().minusMonths(1)).isLastMonth());
-        assertFalse(PopulationScrapYearMonth.of(LocalDate.now().minusMonths(2)).isLastMonth());
+    @DisplayName("현재 년월 이후 달은 invalid 하다.")
+    void isValidate_shouldReturn_false_whenAfterCurrentYearMonth() {
+        assertFalse(PopulationScrapYearMonth.of(LocalDate.now().plusMonths(1)).isValidate());
     }
 
 

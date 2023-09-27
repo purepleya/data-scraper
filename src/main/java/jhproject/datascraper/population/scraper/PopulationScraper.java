@@ -2,11 +2,18 @@ package jhproject.datascraper.population.scraper;
 
 import jhproject.datascraper.population.Population;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Component
+@RequiredArgsConstructor
 public class PopulationScraper {
+
+    private final PublicDataPopulationClient publicDataPopulationClient;
+    private final PublicDataPopulationGetParameterBuilder parameterBuilder;
 
     public List<Population> scrap(PopulationScrapYearMonth yearMonth) {
 //        최초 파라미터로 api 호출해서 나온 결과로 다음 파라미터 생성
@@ -15,6 +22,8 @@ public class PopulationScraper {
 //          for (법정동 코드)
 //              for (등록 구분)
 //        TODO 위 루프를 어떻게 구현 할 것인가? 어떻게 테스트 할 것인가?
+
+        publicDataPopulationClient.getPopulation(parameterBuilder.build(yearMonth));
         return List.of();
 
     }

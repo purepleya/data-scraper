@@ -17,14 +17,10 @@ public class PopulationScrapYearMonth {
     }
 
     private PopulationScrapYearMonth(LocalDate yearMonth) {
-        if (!isValidate(yearMonth)) {
-            throw new IllegalArgumentException("유효하지 않은 년월(" + yearMonth.format(DateTimeFormatter.ISO_DATE) + ")입니다.");
-        }
-
         this.yearMonth = yearMonth;
     }
 
-    private boolean isValidate(LocalDate yearMonth) {
+    public boolean isValidate() {
         return !(yearMonth.isBefore(PopulationScrapYearMonth.FIRST_DATE) || yearMonth.isAfter(LocalDate.now().withDayOfMonth(1).minusDays(1)));
     }
 
@@ -44,7 +40,4 @@ public class PopulationScrapYearMonth {
         return new PopulationScrapYearMonth(yearMonth.plusMonths(1));
     }
 
-    public boolean isLastMonth() {
-        return getYearMonth().equals(LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("yyyyMM")));
-    }
 }

@@ -19,7 +19,7 @@ public class PopulationDataProcessor {
     public void run() {
 //        최초일(2022.10) 부터 지난달 까지 수집
         PopulationScrapYearMonth yearMonth = PopulationScrapYearMonth.FIRST_YEAR_MONTH;
-        while (!yearMonth.isLastMonth()) {
+        while (!yearMonth.isValidate()) {
             run(yearMonth);
             yearMonth = yearMonth.nextMonth();
         }
