@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class PublicDataPopulationGetParameterBuilder {
 
     @Value("${jhproject.public-data.service-key}")
-    public List<> serviceKey;
+    public String serviceKey;
 
 
 }

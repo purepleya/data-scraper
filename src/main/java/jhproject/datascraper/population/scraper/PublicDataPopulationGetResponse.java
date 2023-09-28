@@ -22,16 +22,21 @@ public class PublicDataPopulationGetResponse {
         private List<Item> item;
     }
 
-    public class Head {
 
-//              "pageNo": "1",
-//              "resultCode": "0",
-//              "totalCount": "17",
-//              "numOfRows": "100",
-//              "resultMsg": "NORMAL_SERVICE"
+    public record Head(
+            Integer pageNo,
+            String resultCode,
+            Integer totalCount,
+            Integer numOfRows,
+            String resultMsg
+    ) {
     }
 
-    public class Item {
+
+    public record Item(
+
+    )
+    {
         "tong": "",
                 "male50AgeNmprCnt": "732824",
                 "feml40AgeNmprCnt": "724211",

@@ -16,16 +16,48 @@ public class PopulationScraper {
     private final PublicDataPopulationGetParameterBuilder parameterBuilder;
 
     public List<Population> scrap(PopulationScrapYearMonth yearMonth) {
-//        최초 파라미터로 api 호출해서 나온 결과로 다음 파라미터 생성
-//        그다음 또 API 호출
-//        for (광역 시도 단위 코드)
-//          for (법정동 코드)
-//              for (등록 구분)
-//        TODO 위 루프를 어떻게 구현 할 것인가? 어떻게 테스트 할 것인가?
+        PublicDataPopulationGetParameter parameter = parameterBuilder.build(yearMonth);
+        List<Population> populations = scrap(parameter);
 
-        publicDataPopulationClient.getPopulation(parameterBuilder.build(yearMonth));
+
+
+        while(parameter.hasNextRegSeCd()) {
+            parameter = parameter.nextRegSeCd();
+            populations.addAll(scrap(parameter));
+        }
+
         return List.of();
+    }
 
+    private List<Population> scrapByLv(PublicDataPopulationGetParameter parameter) {
+//        TODO 광역시도 단위 데이터 수집
+        if (parameter.hasNextLv()) {
+            List<PublicDataPopulationGetParameter> nextLvParameters = populations.stream()
+                    .map(p -> parameterBuilder.build(parameter.nextLv(), p))
+                    .toList();
+        }
+//    TODO response 모아서 Population Collection으로 변환
+        return List.of();
+    }
+
+    private List<Population> scrapByRegSeCd(PublicDataPopulationGetParameter parameter) {
+//        TODO 등록 구분 단위 데이터 수집
+
+//    TODO response 모아서 Population Collection으로 변환
+        return List.of();
+    }
+
+
+//    페이지를 증가 시키며 전체 페이지수집
+    private List<Population> scrapByPage(PublicDataPopulationGetParameter parameter) {
+        PublicDataPopulationGetResponse response = publicDataPopulationClient.getPopulation(parameter);
+
+        while(response.hasNextPage()) {
+            PublicDataPopulationGetResponse nextPageResponse = publicDataPopulationClient.getPopulation(parameter.nextPage());
+        }
+
+//    TODO response 모아서 Population Collection으로 변환
+        return List.of();
     }
 
 //        공공데이터 API 호출해서 데이터 수집

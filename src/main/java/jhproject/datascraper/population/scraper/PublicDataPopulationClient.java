@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface PublicDataPopulationClient {
 
     @GetMapping
-    public String getPopulation(@SpringQueryMap PublicDataPopulationGetParameter parameter);
+    public PublicDataPopulationGetResponse getPopulation(@SpringQueryMap PublicDataPopulationGetParameter parameter);
 
 }
