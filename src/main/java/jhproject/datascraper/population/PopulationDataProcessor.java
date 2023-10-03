@@ -13,23 +13,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PopulationDataProcessor {
 
-    private final PopulationScraper populationScraper;
-    private final PopulationDataRegister populationDataService;
+//    private final PopulationScraper populationScraper;
+//    private final PopulationDataRegister populationDataService;
 
     public void run() {
 //        최초일(2022.10) 부터 지난달 까지 수집
-        PopulationScrapYearMonth yearMonth = PopulationScrapYearMonth.FIRST_YEAR_MONTH;
-        while (!yearMonth.isValidate()) {
-            run(yearMonth);
-            yearMonth = yearMonth.nextMonth();
-        }
+//        PopulationScrapYearMonth yearMonth = PopulationScrapYearMonth.FIRST_YEAR_MONTH;
+//        while (!yearMonth.isValidate()) {
+//            run(yearMonth);
+//            yearMonth = yearMonth.nextMonth();
+//        }
     }
 
     
     @Transactional
     private void run(PopulationScrapYearMonth yearMonth) {
-        List<Population> populations = populationScraper.scrap(yearMonth);
-        populationDataService.save(yearMonth, populations);
+//        List<Population> populations = populationScraper.scrap(yearMonth);
+//        populationDataService.save(yearMonth, populations);
     }
 
 

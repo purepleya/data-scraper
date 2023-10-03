@@ -9,6 +9,6 @@ public record PublicDataPopulationGetParameter(
         String regSeCd,
         String type,
         String numOfRows,
-        String pageNo
+        Integer pageNo
 ) {
 }
