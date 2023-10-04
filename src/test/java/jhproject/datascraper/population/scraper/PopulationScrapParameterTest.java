@@ -58,4 +58,16 @@ class PopulationScrapParameterTest {
         assertEquals("1000", result.numOfRows());
         assertEquals(1, result.pageNo());
     }
+
+    @Test
+    @DisplayName("다음 레벨이 존재하는지 여부를 반환한다.")
+    void hasNextLv() {
+        assertEquals(true, false);
+    }
+
+    @Test
+    @DisplayName("다음 레벨 파라미터를 생성해서 반환한다.")
+    void getNextLvParameters() {
+        assertEquals(true, false);
+    }
 }

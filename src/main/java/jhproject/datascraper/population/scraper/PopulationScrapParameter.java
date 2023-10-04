@@ -1,7 +1,11 @@
 package jhproject.datascraper.population.scraper;
 
+import jhproject.datascraper.population.Population;
 import lombok.Getter;
 import lombok.NonNull;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 public class PopulationScrapParameter {
@@ -41,6 +45,24 @@ public class PopulationScrapParameter {
                 this.regSeCd,
                 this.pageNo + 1
         );
+    }
+
+    public boolean hasNextLv() {
+        return Arrays.stream(lvs)
+                .filter(lv -> lv > this.lv)
+                .count() > 0;
+    }
+
+    public List<PopulationScrapParameter> getNextLvParameters(List<Population> result) {
+        return result.stream()
+                .map(p -> new PopulationScrapParameter(
+                        this.yearMonth,
+                        this.stdgCd,
+                        this.lv + 1,
+                        this.regSeCd,
+                        1
+                ))
+                .toList();
     }
 
     public PublicDataPopulationGetParameter toPublicDataPopulationGetParameter(String serviceKey) {
