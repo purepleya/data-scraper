@@ -1,7 +1,10 @@
 package jhproject.datascraper.population.scraper;
 
+import jhproject.datascraper.population.Population;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,12 +65,49 @@ class PopulationScrapParameterTest {
     @Test
     @DisplayName("다음 레벨이 존재하는지 여부를 반환한다.")
     void hasNextLv() {
-        assertEquals(true, false);
+        PopulationScrapParameter lv1 = new PopulationScrapParameter(
+                PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(),
+                "1000000000",
+                1,
+                1,
+                1
+        );
+
+        PopulationScrapParameter lv2 = new PopulationScrapParameter(
+                PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(),
+                "1000000000",
+                2,
+                1,
+                1
+        );
+
+        PopulationScrapParameter lv3 = new PopulationScrapParameter(
+                PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(),
+                "1000000000",
+                3,
+                1,
+                1
+        );
+
+        PopulationScrapParameter lv4 = new PopulationScrapParameter(
+                PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(),
+                "1000000000",
+                4,
+                1,
+                1
+        );
+
+        assertTrue( lv1.hasNextLv());
+        assertTrue(lv2.hasNextLv());
+        assertTrue(lv3.hasNextLv());
+        assertFalse(lv4.hasNextLv());
     }
 
     @Test
     @DisplayName("다음 레벨 파라미터를 생성해서 반환한다.")
     void getNextLvParameters() {
         assertEquals(true, false);
+
+//        List<PopulationScrapParameter> getNextLvParameters(List< Population > result)
     }
 }
