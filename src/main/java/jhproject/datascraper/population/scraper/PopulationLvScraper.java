@@ -17,10 +17,10 @@ public class PopulationLvScraper {
     public List<Population> scrap(PopulationScrapParameter parameter) {
         List<Population> result  = new ArrayList<>(populationPageScraper.scrap(parameter));
 
-        if (parameter.hasNextLv() && !CollectionUtils.isEmpty(result)) {
+        if (parameter.hasNextLv()) {
             List<PopulationScrapParameter> nextLvParameters = parameter.getNextLvParameters(result);
             nextLvParameters.stream()
-                    .map(populationPageScraper::scrap)
+                    .map(this::scrap)
                     .forEach(result::addAll);
         }
         return result;
