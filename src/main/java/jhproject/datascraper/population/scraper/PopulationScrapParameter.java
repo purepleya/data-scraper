@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 public class PopulationScrapParameter {
@@ -28,7 +29,7 @@ public class PopulationScrapParameter {
         this.pageNo = pageNo;
     }
 
-    public static PopulationScrapParameter first(@NonNull PopulationScrapYearMonth yearMonth) {
+    public static PopulationScrapParameter firstOf(@NonNull PopulationScrapYearMonth yearMonth) {
         return new PopulationScrapParameter(
                 yearMonth.getYearMonth(),
                 "1000000000",
@@ -83,4 +84,25 @@ public class PopulationScrapParameter {
                 this.pageNo
         );
     }
+
+    public boolean hasNextRegSeCd() {
+        return Arrays.stream(regSeCds)
+                .filter(regSeCd -> regSeCd > this.regSeCd)
+                .count() > 0;
+    }
+
+    public Optional<PopulationScrapParameter> getNextRegSeCd() {
+        if (!hasNextRegSeCd()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new PopulationScrapParameter(
+                        this.yearMonth,
+                        this.stdgCd,
+                        this.lv,
+                        this.regSeCd + 1,
+                        1
+                ));
+    }
+
 }
