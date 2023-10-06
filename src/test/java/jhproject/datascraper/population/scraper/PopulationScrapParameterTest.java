@@ -97,17 +97,70 @@ class PopulationScrapParameterTest {
                 1
         );
 
-        assertTrue( lv1.hasNextLv());
+        assertTrue(lv1.hasNextLv());
         assertTrue(lv2.hasNextLv());
         assertTrue(lv3.hasNextLv());
         assertFalse(lv4.hasNextLv());
     }
 
+
+    @Test
+    @DisplayName("nextLevelParameters() 메서드에 올바르지 않은 파라미터가 전달되는 경우 빈 배열이 반환된다.")
+    void getNextLvParameters1() {
+        PopulationScrapParameter lv1 = new PopulationScrapParameter(
+                PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(),
+                "1000000000",
+                1,
+                1,
+                1
+        );
+
+        PopulationScrapParameter lv5 = new PopulationScrapParameter(
+                PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(),
+                "1000000000",
+                5,
+                1,
+                1
+        );
+        List<Population> results = List.of(
+                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "111", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null))
+                );
+
+        List<PopulationScrapParameter> nextLvParameters1 = lv1.getNextLvParameters(null);
+        List<PopulationScrapParameter> nextLvParameters2 = lv5.getNextLvParameters(results);
+
+        assertNotNull(nextLvParameters1);
+        assertNotNull(nextLvParameters2);
+        assertEquals(0, nextLvParameters1.size());
+        assertEquals(0, nextLvParameters2.size());
+    }
+
+
     @Test
     @DisplayName("다음 레벨 파라미터를 생성해서 반환한다.")
-    void getNextLvParameters() {
-        assertEquals(true, false);
+    void getNextLvParameters2() {
+        PopulationScrapParameter lv1 = new PopulationScrapParameter(
+                PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(),
+                "1000000000",
+                1,
+                1,
+                1
+        );
 
-//        List<PopulationScrapParameter> getNextLvParameters(List< Population > result)
+        List<Population> results = List.of(
+                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "111", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "222", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "333", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "444", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null))
+        );
+
+        List<PopulationScrapParameter> nextLvParameters = lv1.getNextLvParameters(results);
+
+        assertEquals(4, nextLvParameters.size());
+        assertTrue(nextLvParameters.stream().anyMatch(p -> p.getStdgCd().equals("111") && p.getLv() == 2));
+        assertTrue(nextLvParameters.stream().anyMatch(p -> p.getStdgCd().equals("222") && p.getLv() == 2));
+        assertTrue(nextLvParameters.stream().anyMatch(p -> p.getStdgCd().equals("333") && p.getLv() == 2));
+        assertTrue(nextLvParameters.stream().anyMatch(p -> p.getStdgCd().equals("444") && p.getLv() == 2));
     }
+
 }

@@ -3,6 +3,7 @@ package jhproject.datascraper.population.scraper;
 import jhproject.datascraper.population.Population;
 import lombok.Getter;
 import lombok.NonNull;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,11 +54,15 @@ public class PopulationScrapParameter {
                 .count() > 0;
     }
 
-    public List<PopulationScrapParameter> getNextLvParameters(List<Population> result) {
-        return result.stream()
+    public List<PopulationScrapParameter> getNextLvParameters(List<Population> results) {
+        if (CollectionUtils.isEmpty(results) || !hasNextLv()) {
+            return List.of();
+        }
+
+        return results.stream()
                 .map(p -> new PopulationScrapParameter(
                         this.yearMonth,
-                        this.stdgCd,
+                        p.getStdgCd(),
                         this.lv + 1,
                         this.regSeCd,
                         1
