@@ -20,7 +20,7 @@ public class PopulationScrapYearMonth {
         this.yearMonth = yearMonth;
     }
 
-    public boolean isValidate() {
+    public boolean isValid() {
         return !(yearMonth.isBefore(PopulationScrapYearMonth.FIRST_DATE) || yearMonth.isAfter(LocalDate.now().withDayOfMonth(1).minusDays(1)));
     }
 

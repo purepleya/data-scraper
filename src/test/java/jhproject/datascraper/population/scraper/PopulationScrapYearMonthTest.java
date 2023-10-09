@@ -38,13 +38,13 @@ class PopulationScrapYearMonthTest {
     @Test
     @DisplayName("최초 수집 년월(2022년 10월) 이전 달은 invalid 하다.")
     void isValidate_shouldReturn_false_whenBeforeFirstYearMonth() {
-        assertFalse(PopulationScrapYearMonth.of(LocalDate.of(2022, 9, 1)).isValidate());
+        assertFalse(PopulationScrapYearMonth.of(LocalDate.of(2022, 9, 1)).isValid());
     }
 
     @Test
     @DisplayName("현재 년월 이후 달은 invalid 하다.")
     void isValidate_shouldReturn_false_whenAfterCurrentYearMonth() {
-        assertFalse(PopulationScrapYearMonth.of(LocalDate.now().plusMonths(1)).isValidate());
+        assertFalse(PopulationScrapYearMonth.of(LocalDate.now().plusMonths(1)).isValid());
     }
 
 
