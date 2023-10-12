@@ -14,10 +14,10 @@ public class ApplicationEventListener {
 
     private final PopulationDataProcessor populationScrapProcessor;
 
-    @EventListener({ContextRefreshedEvent.class})
-    public void handleRefreshEvent() {
-        populationScrapProcessor.run();
-    }
+//    @EventListener({ContextRefreshedEvent.class})
+//    public void handleRefreshEvent() {
+//        populationScrapProcessor.run();
+//    }
 
 
 
