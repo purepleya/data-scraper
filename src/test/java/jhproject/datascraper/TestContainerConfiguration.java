@@ -1,23 +1,26 @@
 package jhproject.datascraper;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
+
 @TestConfiguration(proxyBeanMethods = false)
-public class TestDataScraperApplication {
+public class TestContainerConfiguration {
 
 	@Bean
 	@ServiceConnection
 	MySQLContainer<?> mysqlContainer() {
-		return new MySQLContainer<>(DockerImageName.parse("mysql:latest"));
+		return new MySQLContainer<>(DockerImageName.parse("mysql:latest")).withReuse(true);
 	}
 
-	public static void main(String[] args) {
-		SpringApplication.from(DataScraperApplication::main).with(TestDataScraperApplication.class).run(args);
+
+	@DynamicPropertySource
+	static void registerPgProperties(DynamicPropertyRegistry registry) {
 	}
 
 }
