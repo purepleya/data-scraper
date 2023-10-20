@@ -26,4 +26,12 @@ public class PopulationScrapLog {
 
     @Column(name = "scrap_end_dtm")
     private LocalDateTime scrapEndDtm;
+
+    public PopulationScrapLog(Integer id, Integer yyyy, Integer mm, LocalDateTime scrapStartDtm, LocalDateTime scrapEndDtm) {
+        this.id = id;
+        this.yyyy = yyyy;
+        this.mm = mm;
+        this.scrapStartDtm = scrapStartDtm;
+        this.scrapEndDtm = scrapEndDtm;
+    }
 }
