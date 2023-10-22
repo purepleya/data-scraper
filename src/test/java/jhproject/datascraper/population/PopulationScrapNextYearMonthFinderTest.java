@@ -16,8 +16,7 @@ import static org.mockito.Mockito.mock;
 
 class PopulationScrapNextYearMonthFinderTest {
 
-    @Mock
-    private PopulationScrapLogRepository populationScrapLogRepository = mock(PopulationScrapLogRepository.class);
+    private final PopulationScrapLogRepository populationScrapLogRepository = mock(PopulationScrapLogRepository.class);
 
 
     @Test
