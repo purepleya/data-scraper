@@ -34,4 +34,8 @@ public class PopulationScrapLog {
         this.scrapStartDtm = scrapStartDtm;
         this.scrapEndDtm = scrapEndDtm;
     }
+
+    public void setEndAt(LocalDateTime now) {
+        this.scrapEndDtm = now;
+    }
 }

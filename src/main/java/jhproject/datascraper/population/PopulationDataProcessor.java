@@ -16,16 +16,27 @@ public class PopulationDataProcessor {
 
     private final PopulationScrapNextYearMonthFinder populationScrapNextYearMonthFinder;
     private final PopulationScraper scraper;
+    private final PopulationDataRegister populationDataRegister;
+    private final PopulationScrapLoggerBuilder loggerBuilder;
 
-    public void run() {
-//        TODO 마지막 데이터 수집일을 조회해서 Scrap을 실행할 달을 결정
-        Optional<PopulationScrapYearMonth> yearMonthOptional = populationScrapNextYearMonthFinder.find();
+    public void run() throws InterruptedException {
+        Optional<PopulationScrapYearMonth> yearMonthOptional;
 
-//        TODO Scraper를 이용해서 데이터 조회
-        List<Population> populations = scraper.scrap(yearMonthOptional.get());
+        while ((yearMonthOptional = populationScrapNextYearMonthFinder.find()).isPresent()) {
+            PopulationScrapYearMonth yearMonth = yearMonthOptional.get();
+            PopulationScrapLoggerBuilder.PopulationScrapLogger logger = loggerBuilder.build(yearMonth);
 
-//        TODO DB에 데이터 등록 및 로그 처리
-//        populationDataRegister.save(yearMonth, populations);
+            logger.start();
+
+            List<Population> populations = scraper.scrap(yearMonth);
+
+//            TODO DB에 데이터 등록
+            populationDataRegister.save(yearMonth, populations);
+
+            logger.end();
+
+            Thread.sleep(10000L);
+        }
     }
 
 
