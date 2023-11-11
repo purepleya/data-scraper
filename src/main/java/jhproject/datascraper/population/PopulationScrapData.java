@@ -1,10 +1,14 @@
 package jhproject.datascraper.population;
 
+import jhproject.datascraper.population.entity.Population;
+import jhproject.datascraper.population.scraper.PopulationScrapParameter;
 import jhproject.datascraper.population.scraper.PublicDataPopulationGetResponse;
 import lombok.Getter;
 
 @Getter
-public class Population {
+public class PopulationScrapData {
+    private final String yyyyMm;
+    private final String regSeCd;
     private final String ctpvNm;
     private final String dongNm;
     private final String tong;
@@ -42,7 +46,9 @@ public class Population {
     private final String statsYm;
 
 
-    public Population(PublicDataPopulationGetResponse.Item responseItem) {
+    public PopulationScrapData(PopulationScrapParameter parameter, PublicDataPopulationGetResponse.Item responseItem) {
+        this.yyyyMm = parameter.getYearMonth();
+        this.regSeCd = String.valueOf(parameter.getRegSeCd());
         this.ctpvNm = responseItem.ctpvNm();
         this.dongNm = responseItem.dongNm();
         this.tong = responseItem.tong();
@@ -78,6 +84,48 @@ public class Population {
         this.femlNmprCnt = responseItem.femlNmprCnt();
         this.totNmprCnt = responseItem.totNmprCnt();
         this.statsYm = responseItem.statsYm();
+    }
+
+    public Population toEntity() {
+        return new Population(
+                yyyyMm,
+                regSeCd,
+                ctpvNm,
+                dongNm,
+                tong,
+                ban,
+                liNm,
+                stdgCd,
+                stdgNm,
+                sggNm,
+                admmCd,
+                male0AgeNmprCnt,
+                feml0AgeNmprCnt,
+                male10AgeNmprCnt,
+                feml10AgeNmprCnt,
+                male20AgeNmprCnt,
+                feml20AgeNmprCnt,
+                male30AgeNmprCnt,
+                feml30AgeNmprCnt,
+                male40AgeNmprCnt,
+                feml40AgeNmprCnt,
+                male50AgeNmprCnt,
+                feml50AgeNmprCnt,
+                male60AgeNmprCnt,
+                feml60AgeNmprCnt,
+                male70AgeNmprCnt,
+                feml70AgeNmprCnt,
+                male80AgeNmprCnt,
+                feml80AgeNmprCnt,
+                male90AgeNmprCnt,
+                feml90AgeNmprCnt,
+                male100AgeNmprCnt,
+                feml100AgeNmprCnt,
+                maleNmprCnt,
+                femlNmprCnt,
+                totNmprCnt,
+                statsYm
+        );
     }
 
 }

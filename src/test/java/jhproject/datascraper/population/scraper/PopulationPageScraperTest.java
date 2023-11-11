@@ -1,6 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +49,7 @@ public class PopulationPageScraperTest {
                 1
         );
 
-        List<Population> result = pupulationPageScraper.scrap(parameter);
+        List<PopulationScrapData> result = pupulationPageScraper.scrap(parameter);
 
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -68,7 +68,7 @@ public class PopulationPageScraperTest {
         );
 
         // when
-        List<Population> result = pupulationPageScraper.scrap(parameter);
+        List<PopulationScrapData> result = pupulationPageScraper.scrap(parameter);
 
         // then
         assertEquals(2, result.size());
@@ -87,7 +87,7 @@ public class PopulationPageScraperTest {
         );
 
         // when
-        List<Population> result = pupulationPageScraper.scrap(parameter);
+        List<PopulationScrapData> result = pupulationPageScraper.scrap(parameter);
 
         // then
         assertEquals(1, result.size());

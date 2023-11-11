@@ -1,6 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -123,8 +123,8 @@ class PopulationScrapParameterTest {
                 1,
                 1
         );
-        List<Population> results = List.of(
-                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "111", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null))
+        List<PopulationScrapData> results = List.of(
+                new PopulationScrapData(lv1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "111", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null))
                 );
 
         List<PopulationScrapParameter> nextLvParameters1 = lv1.getNextLvParameters(null);
@@ -148,11 +148,11 @@ class PopulationScrapParameterTest {
                 1
         );
 
-        List<Population> results = List.of(
-                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "111", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
-                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "222", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
-                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "333", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
-                new Population(new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "444", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null))
+        List<PopulationScrapData> results = List.of(
+                new PopulationScrapData(lv1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "111", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new PopulationScrapData(lv1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "222", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new PopulationScrapData(lv1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "333", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new PopulationScrapData(lv1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "444", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null))
         );
 
         List<PopulationScrapParameter> nextLvParameters = lv1.getNextLvParameters(results);

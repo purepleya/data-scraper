@@ -4,9 +4,7 @@ import jhproject.datascraper.population.scraper.PopulationScrapYearMonth;
 import jhproject.datascraper.population.scraper.PopulationScraper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +26,9 @@ public class PopulationDataProcessor {
 
             logger.start();
 
-            List<Population> populations = scraper.scrap(yearMonth);
+            List<PopulationScrapData> populationScrapData = scraper.scrap(yearMonth);
 
-//            TODO DB에 데이터 등록
-            populationDataRegister.save(yearMonth, populations);
+            populationDataRegister.save(populationScrapData);
 
             logger.end();
 

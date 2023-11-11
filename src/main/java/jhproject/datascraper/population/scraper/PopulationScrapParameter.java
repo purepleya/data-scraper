@@ -1,6 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.util.CollectionUtils;
@@ -55,7 +55,7 @@ public class PopulationScrapParameter {
                 .count() > 0;
     }
 
-    public List<PopulationScrapParameter> getNextLvParameters(List<Population> results) {
+    public List<PopulationScrapParameter> getNextLvParameters(List<PopulationScrapData> results) {
         if (CollectionUtils.isEmpty(results) || !hasNextLv()) {
             return List.of();
         }

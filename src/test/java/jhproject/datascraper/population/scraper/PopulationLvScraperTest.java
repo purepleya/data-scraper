@@ -1,6 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +36,7 @@ public class PopulationLvScraperTest {
 
 //        when
         PopulationLvScraper scraper = new PopulationLvScraper(new PopulationPageScraper(publicDataPopulationClient));
-        List<Population> result = scraper.scrap(parameter);
+        List<PopulationScrapData> result = scraper.scrap(parameter);
 
 //        then
         assertEquals(2, result.size());
@@ -82,7 +82,7 @@ public class PopulationLvScraperTest {
         );
 
         PopulationLvScraper scraper = new PopulationLvScraper(new PopulationPageScraper(publicDataPopulationClient));
-        List<Population> result = scraper.scrap(parameter);
+        List<PopulationScrapData> result = scraper.scrap(parameter);
 
         assertTrue(result.stream().anyMatch(p -> p.getStdgCd().equals("1000000001")));
         assertTrue(result.stream().anyMatch(p -> p.getStdgCd().equals("1000000011")));

@@ -1,6 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ public class PopulationRegSeCdScraperTest {
     void whenScrap_shouldReturnEmptyList() {
         PopulationRegSeCdScraper populationRegSeCdScraper = new PopulationRegSeCdScraper(null);
 
-        List<Population> result = populationRegSeCdScraper.scrap(null);
+        List<PopulationScrapData> result = populationRegSeCdScraper.scrap(null);
 
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -51,7 +51,7 @@ public class PopulationRegSeCdScraperTest {
                 1
         );
 
-        List<Population> result = populationRegSeCdScraper.scrap(parameter);
+        List<PopulationScrapData> result = populationRegSeCdScraper.scrap(parameter);
 
         assertNotNull(result);
         assertEquals(3, result.size());
@@ -91,7 +91,7 @@ public class PopulationRegSeCdScraperTest {
                 1
         );
 
-        List<Population> result = populationRegSeCdScraper.scrap(parameter);
+        List<PopulationScrapData> result = populationRegSeCdScraper.scrap(parameter);
 
         assertNotNull(result);
         assertEquals(5, result.size());

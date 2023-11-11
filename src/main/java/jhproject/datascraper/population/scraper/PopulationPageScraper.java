@@ -1,6 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,14 +19,14 @@ public class PopulationPageScraper {
 
     private final PublicDataPopulationClient publicDataPopulationClient;
 
-    public List<Population> scrap(PopulationScrapParameter parameter) {
+    public List<PopulationScrapData> scrap(PopulationScrapParameter parameter) {
 
         PublicDataPopulationGetParameter getParameter = parameter.toPublicDataPopulationGetParameter(serviceKey);
         PublicDataPopulationGetResponse response = publicDataPopulationClient.getPopulation(getParameter);
-        List<Population> result = convert(response);
+        List<PopulationScrapData> result = convert(parameter, response);
 
         if(response.hasNextPage()) {
-            List<Population> nextPageResult = scrap(parameter.nextPage());
+            List<PopulationScrapData> nextPageResult = scrap(parameter.nextPage());
             result = Stream.concat(result.stream(), nextPageResult.stream()).toList();
         }
 
@@ -34,12 +34,12 @@ public class PopulationPageScraper {
     }
 
 
-    private List<Population> convert(PublicDataPopulationGetResponse response) {
+    private List<PopulationScrapData> convert(PopulationScrapParameter parameter, PublicDataPopulationGetResponse response) {
         if (Objects.isNull(response) || CollectionUtils.isEmpty(response.getResult())) {
             return List.of();
         }
 
-        return  response.getResult().stream().map(Population::new).toList();
+        return  response.getResult().stream().map(r -> new PopulationScrapData(parameter, r)).toList();
     }
 
 

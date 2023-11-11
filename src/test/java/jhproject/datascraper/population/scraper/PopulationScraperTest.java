@@ -1,6 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ class PopulationScraperTest {
     void whenScrapWithNullParameter_shouldReturnEmptyList() {
         PopulationScraper scraper = buildScraper(null);
 
-        List<Population> result = scraper.scrap(null);
+        List<PopulationScrapData> result = scraper.scrap(null);
 
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -33,8 +33,8 @@ class PopulationScraperTest {
     void whenScrap_shouldReturnEmptyList() {
         PopulationScraper scraper = buildScraper(null);
 
-        List<Population> result = scraper.scrap(PopulationScrapYearMonth.of(LocalDate.of(2022, 10, 1).minusMonths(2)));
-        List<Population> result2 = scraper.scrap(PopulationScrapYearMonth.of(LocalDate.now()));
+        List<PopulationScrapData> result = scraper.scrap(PopulationScrapYearMonth.of(LocalDate.of(2022, 10, 1).minusMonths(2)));
+        List<PopulationScrapData> result2 = scraper.scrap(PopulationScrapYearMonth.of(LocalDate.now()));
 
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -66,7 +66,7 @@ class PopulationScraperTest {
 
         PopulationScraper scraper = buildScraper(publicDataPopulationClient);
 
-        List<Population> result = scraper.scrap(PopulationScrapYearMonth.FIRST_YEAR_MONTH);
+        List<PopulationScrapData> result = scraper.scrap(PopulationScrapYearMonth.FIRST_YEAR_MONTH);
 
         assertNotNull(result);
         assertEquals(5, result.size());

@@ -2,10 +2,12 @@ package jhproject.datascraper.population.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "population_scrap_log")
 public class PopulationScrapLog {

@@ -1,9 +1,8 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.Population;
+import jhproject.datascraper.population.PopulationScrapData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,8 @@ public class PopulationLvScraper {
 
     private final PopulationPageScraper populationPageScraper;
 
-    public List<Population> scrap(PopulationScrapParameter parameter) {
-        List<Population> result  = new ArrayList<>(populationPageScraper.scrap(parameter));
+    public List<PopulationScrapData> scrap(PopulationScrapParameter parameter) {
+        List<PopulationScrapData> result  = new ArrayList<>(populationPageScraper.scrap(parameter));
 
         if (parameter.hasNextLv()) {
             List<PopulationScrapParameter> nextLvParameters = parameter.getNextLvParameters(result);
