@@ -1,5 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jhproject.datascraper.population.PopulationScrapData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,6 @@ public class PopulationPageScraper {
     private final PublicDataPopulationClient publicDataPopulationClient;
 
     public List<PopulationScrapData> scrap(PopulationScrapParameter parameter) {
-
         PublicDataPopulationGetParameter getParameter = parameter.toPublicDataPopulationGetParameter(serviceKey);
         PublicDataPopulationGetResponse response = publicDataPopulationClient.getPopulation(getParameter);
         List<PopulationScrapData> result = convert(parameter, response);

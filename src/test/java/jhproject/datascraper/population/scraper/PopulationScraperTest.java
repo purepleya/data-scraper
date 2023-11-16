@@ -48,18 +48,18 @@ class PopulationScraperTest {
     @DisplayName("scrap 함수는 모든 regSeCd에 대해서 scrap을 수행 해야 한다. (모든 lv, page에 대해 scrap을 수행하는 기능은 다른 Scraper 의 테스트를 통해 검증한다.)")
     void whenScrap_shouldScrapAllRegSeCd() {
         PublicDataPopulationClient publicDataPopulationClient = (PublicDataPopulationGetParameter parameter) -> {
-            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 1, 1, "success");
+            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 1, 1, "success");
             PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of());
-            if (parameter.regSeCd().equals("1") && parameter.lv().equals("1")) {
-                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000001", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.srchFrYm())));
-            } else if (parameter.regSeCd().equals("1") && parameter.lv().equals("2")) {
-                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000011", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.srchFrYm())));
-            } else if (parameter.regSeCd().equals("2") && parameter.lv().equals("1")) {
-                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000009", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.srchFrYm())));
-            } else if (parameter.regSeCd().equals("2") && parameter.lv().equals("2")) {
-                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000019", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.srchFrYm())));
-            } else if (parameter.regSeCd().equals("2") && parameter.lv().equals("3")) {
-                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000119", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.srchFrYm())));
+            if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("1")) {
+                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000001", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
+            } else if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("2")) {
+                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000011", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
+            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("1")) {
+                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000009", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
+            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("2")) {
+                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000019", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
+            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("3")) {
+                items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000119", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
             }
             return new PublicDataPopulationGetResponse(head, items);
         };

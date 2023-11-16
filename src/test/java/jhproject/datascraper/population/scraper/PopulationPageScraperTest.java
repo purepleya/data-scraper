@@ -13,17 +13,17 @@ public class PopulationPageScraperTest {
     private final PublicDataPopulationClient publicDataPopulationClientForTest = new PublicDataPopulationClient() {
         @Override
         public PublicDataPopulationGetResponse getPopulation(PublicDataPopulationGetParameter parameter) {
-            if (parameter.lv().equals("1")) {
+            if (parameter.getLv().equals("1")) {
 //                결과가 없는 경우
                 return new PublicDataPopulationGetResponse();
-            } else if (parameter.lv().equals("2")) {
+            } else if (parameter.getLv().equals("2")) {
 //                결과가 여러 2개 페이지로 나눠진 경우
-                PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 2, 1, "success");
+                PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 2, 1, "success");
                 PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
                 return new PublicDataPopulationGetResponse(head, items);
-            } else if (parameter.lv().equals("3")) {
+            } else if (parameter.getLv().equals("3")) {
 //                결과가 여러 1개 페이지인 경우
-                PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 1, 1, "success");
+                PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 1, 1, "success");
                 PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
                 return new PublicDataPopulationGetResponse(head, items);
             } else {

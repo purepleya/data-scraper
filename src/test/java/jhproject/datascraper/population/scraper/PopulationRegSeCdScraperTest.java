@@ -29,13 +29,13 @@ public class PopulationRegSeCdScraperTest {
     @DisplayName("scrap 함수는 모든 lv에 대해서 scrap을 수행 해야 한다. (모든 페이지에 대해 scrap을 수행하는 기능은 PopulationLvScraperTest 에서 검증한다.)")
     void whenScrap_shouldScrapAllLv() {
         PublicDataPopulationClient publicDataPopulationClient = (PublicDataPopulationGetParameter parameter) -> {
-            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 1, 1, "success");
+            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 1, 1, "success");
             PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of());
-            if (parameter.regSeCd().equals("1") && parameter.lv().equals("1")) {
+            if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("1")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000001", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
-            } else if (parameter.regSeCd().equals("1") && parameter.lv().equals("2")) {
+            } else if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("2")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000011", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
-            } else if (parameter.regSeCd().equals("1") && parameter.lv().equals("3")) {
+            } else if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("3")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000111", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
             }
             return new PublicDataPopulationGetResponse(head, items);
@@ -65,17 +65,17 @@ public class PopulationRegSeCdScraperTest {
     @DisplayName("최초 scrap 결과를 바탕으로 다음 regSeCd 값을 기반으로 하는 파라미터를 생성하여 재귀적으로 scrap 을 실행한다.")
     void whenScrap_shouldScrapByRegSeCd() {
         PublicDataPopulationClient publicDataPopulationClient = (PublicDataPopulationGetParameter parameter) -> {
-            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 1, 1, "success");
+            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 1, 1, "success");
             PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of());
-            if (parameter.regSeCd().equals("1") && parameter.lv().equals("1")) {
+            if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("1")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000001", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
-            } else if (parameter.regSeCd().equals("1") && parameter.lv().equals("2")) {
+            } else if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("2")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000011", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
-            } else if (parameter.regSeCd().equals("2") && parameter.lv().equals("1")) {
+            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("1")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000009", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
-            } else if (parameter.regSeCd().equals("2") && parameter.lv().equals("2")) {
+            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("2")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000019", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
-            } else if (parameter.regSeCd().equals("2") && parameter.lv().equals("3")) {
+            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("3")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000119", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
             }
             return new PublicDataPopulationGetResponse(head, items);

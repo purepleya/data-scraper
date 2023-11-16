@@ -17,9 +17,9 @@ public class PopulationLvScraperTest {
     void whenScrap_shouldScrapAllPages() {
 //        given
         PublicDataPopulationClient publicDataPopulationClient = (PublicDataPopulationGetParameter parameter) -> {
-            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 2, 1, "success");
+            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 2, 1, "success");
             PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of());
-            if (parameter.lv().equals("1")) {
+            if (parameter.getLv().equals("1")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000001111", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
             }
 
@@ -49,23 +49,23 @@ public class PopulationLvScraperTest {
     void whenScrap_shouldScrapByLv() {
 //        given
         PublicDataPopulationClient publicDataPopulationClient = (PublicDataPopulationGetParameter parameter) -> {
-            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 1, 1, "success");
+            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 1, 1, "success");
             PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of());
-            if (parameter.lv().equals("1")) {
+            if (parameter.getLv().equals("1")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000001", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "202101")));
-            } else if (parameter.lv().equals("2")) {
+            } else if (parameter.getLv().equals("2")) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "2", "1000000011", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,"202101")));
-            } else if (parameter.lv().equals("3")) {
-                head = new PublicDataPopulationGetResponse.Head(parameter.pageNo(), "0", 2, 1, "success");
-                if (parameter.pageNo().equals(1)) {
+            } else if (parameter.getLv().equals("3")) {
+                head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 2, 1, "success");
+                if (parameter.getPageNo().equals(1)) {
                     items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "2", "1000000111", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "202101")));
-                } else if (parameter.pageNo().equals(2)) {
+                } else if (parameter.getPageNo().equals(2)) {
                     items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "2", "1000000211", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "202101")));
                 }
-            } else if (parameter.lv().equals("4")) {
-                if (parameter.stdgCd().equals("1000000111")) {
+            } else if (parameter.getLv().equals("4")) {
+                if (parameter.getStdgCd().equals("1000000111")) {
                     items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "2", "1000001111", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "202101")));
-                } else if (parameter.stdgCd().equals("1000000211")) {
+                } else if (parameter.getStdgCd().equals("1000000211")) {
                     items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "2", "1000002111", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "202101")));
                 }
             }

@@ -52,15 +52,15 @@ class PopulationScrapParameterTest {
         PublicDataPopulationGetParameter result = parameter.toPublicDataPopulationGetParameter("serviceKey");
 
         // then
-        assertEquals("serviceKey", result.serviceKey());
-        assertEquals("1000000000", result.stdgCd());
-        assertEquals("202210", result.srchFrYm());
-        assertEquals("202210", result.srchToYm());
-        assertEquals("1", result.lv());
-        assertEquals("1", result.regSeCd());
-        assertEquals("JSON", result.type());
-        assertEquals("1000", result.numOfRows());
-        assertEquals(1, result.pageNo());
+        assertEquals("serviceKey", result.getServiceKey());
+        assertEquals("1000000000", result.getStdgCd());
+        assertEquals("202210", result.getSrchFrYm());
+        assertEquals("202210", result.getSrchToYm());
+        assertEquals("1", result.getLv());
+        assertEquals("1", result.getRegSeCd());
+        assertEquals("JSON", result.getType());
+        assertEquals("1000", result.getNumOfRows());
+        assertEquals(1, result.getPageNo());
     }
 
     @Test
