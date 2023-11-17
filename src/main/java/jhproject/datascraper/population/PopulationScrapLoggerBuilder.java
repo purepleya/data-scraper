@@ -29,6 +29,8 @@ public class PopulationScrapLoggerBuilder {
         private final PopulationScrapLogRepository populationScrapLogRepository;
         private PopulationScrapLog logEntity;
 
+        private LocalDateTime startDtm;
+
         private PopulationScrapLogger(int year, int month, PopulationScrapLogRepository populationScrapLogRepository) {
             this.year = year;
             this.month = month;
@@ -38,20 +40,13 @@ public class PopulationScrapLoggerBuilder {
         @Transactional
         public void start() {
             log.info("Population scrap start. year: {}, month: {}", year, month);
-            PopulationScrapLog newLog = new PopulationScrapLog(null, year, month, LocalDateTime.now(), null);
-            this.logEntity = populationScrapLogRepository.save(newLog);
+            this.startDtm = LocalDateTime.now();
         }
 
         @Transactional
         public void end() {
-            if (Objects.nonNull(this.logEntity)) {
-                this.logEntity.setEndAt(LocalDateTime.now());
-                populationScrapLogRepository.save(this.logEntity);
-                log.info("Population scrap end. year: {}, month: {}", year, month);
-            } else {
-                PopulationScrapLog newEndLog = new PopulationScrapLog(null, year, month, null, LocalDateTime.now());
-                this.logEntity = populationScrapLogRepository.save(newEndLog);
-            }
+            PopulationScrapLog newEndLog = new PopulationScrapLog(null, year, month, this.startDtm, LocalDateTime.now());
+            this.logEntity = populationScrapLogRepository.save(newEndLog);
         }
     }
 
