@@ -1,5 +1,6 @@
 package jhproject.datascraper.population.scraper;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +59,8 @@ public class PublicDataPopulationGetResponse {
     @Setter
     @NoArgsConstructor
     public static class Items {
+
+        @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
         private List<Item> item;
 
         public Items(List<Item> item) {
