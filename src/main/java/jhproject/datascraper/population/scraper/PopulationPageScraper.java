@@ -25,6 +25,12 @@ public class PopulationPageScraper {
         PublicDataPopulationGetResponse response = publicDataPopulationClient.getPopulation(getParameter);
         List<PopulationScrapData> result = convert(parameter, response);
 
+        try {
+            Thread.sleep(300L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         if(response.hasNextPage()) {
             List<PopulationScrapData> nextPageResult = scrap(parameter.nextPage());
             result = Stream.concat(result.stream(), nextPageResult.stream()).toList();
