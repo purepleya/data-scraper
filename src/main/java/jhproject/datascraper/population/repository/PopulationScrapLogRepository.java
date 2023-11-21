@@ -10,7 +10,4 @@ import java.util.Optional;
 @Repository
 public interface PopulationScrapLogRepository extends JpaRepository<PopulationScrapLog, Long> {
 
-    @Query(value = "SELECT l FROM PopulationScrapLog l ORDER BY l.yyyy DESC, l.mm DESC LIMIT 1")
-    public Optional<PopulationScrapLog> getLastLog();
-
 }

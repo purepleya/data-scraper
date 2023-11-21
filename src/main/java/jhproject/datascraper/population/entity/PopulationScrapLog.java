@@ -17,11 +17,17 @@ public class PopulationScrapLog {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "yyyy")
-    private Integer yyyy;
+    @Column(name = "yyyy_mm")
+    private String yearMonth;
 
-    @Column(name = "mm")
-    private Integer mm;
+    @Column(name = "stdg_cd")
+    private String stdgCd;
+
+    @Column(name = "lv")
+    private Integer lv;
+
+    @Column(name = "reg_se_cd")
+    private Integer regSeCd;
 
     @Column(name = "scrap_start_dtm")
     private LocalDateTime scrapStartDtm;
@@ -29,15 +35,15 @@ public class PopulationScrapLog {
     @Column(name = "scrap_end_dtm")
     private LocalDateTime scrapEndDtm;
 
-    public PopulationScrapLog(Integer id, Integer yyyy, Integer mm, LocalDateTime scrapStartDtm, LocalDateTime scrapEndDtm) {
-        this.id = id;
-        this.yyyy = yyyy;
-        this.mm = mm;
-        this.scrapStartDtm = scrapStartDtm;
-        this.scrapEndDtm = scrapEndDtm;
-    }
-
-    public void setEndAt(LocalDateTime now) {
-        this.scrapEndDtm = now;
-    }
+//    public PopulationScrapLog(Integer id, Integer yyyy, Integer mm, LocalDateTime scrapStartDtm, LocalDateTime scrapEndDtm) {
+//        this.id = id;
+//        this.yyyy = yyyy;
+//        this.mm = mm;
+//        this.scrapStartDtm = scrapStartDtm;
+//        this.scrapEndDtm = scrapEndDtm;
+//    }
+//
+//    public void setEndAt(LocalDateTime now) {
+//        this.scrapEndDtm = now;
+//    }
 }

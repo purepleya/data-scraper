@@ -26,14 +26,14 @@ public class PopulationDataProcessor {
         Optional<PopulationScrapParameter> parameterOptional;
 
         while ((parameterOptional = populationScrapParameterGenerator.generate()).isPresent()) {
-            PopulationScrapParameter parameter = parameterOptional.get();
-            PopulationScrapLoggerBuilder.PopulationScrapLogger logger = loggerBuilder.build(parameter.getYearMonth());
-            logger.start();
-
-            List<PopulationScrapData> populationScrapData = populationPageScraper.scrap(parameter);
-            populationDataRegister.save(populationScrapData);
-
-            logger.end();
+//            PopulationScrapParameter parameter = parameterOptional.get();
+//            PopulationScrapLoggerBuilder.PopulationScrapLogger logger = loggerBuilder.build(parameter.getYearMonth());
+//            logger.start();
+//
+//            List<PopulationScrapData> populationScrapData = populationPageScraper.scrap(parameter);
+//            populationDataRegister.save(populationScrapData);
+//
+//            logger.end();
         }
     }
 

@@ -45,8 +45,7 @@ public class PopulationScrapLoggerBuilder {
 
         @Transactional
         public void end() {
-            PopulationScrapLog newEndLog = new PopulationScrapLog(null, year, month, this.startDtm, LocalDateTime.now());
-            this.logEntity = populationScrapLogRepository.save(newEndLog);
+//            TODO 구현
         }
     }
 
