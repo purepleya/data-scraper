@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "population")
 public class Population {
 
+//    private final String yearMonth;
+//    private final String stdgCd;
+//    private final int lv;
+//    private final int regSeCd;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

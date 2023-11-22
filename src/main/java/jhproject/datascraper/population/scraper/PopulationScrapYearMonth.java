@@ -16,6 +16,12 @@ public class PopulationScrapYearMonth {
         return new PopulationScrapYearMonth(yearMonth);
     }
 
+    public static PopulationScrapYearMonth of(@NonNull String yearMonthString) {
+        LocalDate yearMonth = LocalDate.parse(yearMonthString, DateTimeFormatter.ofPattern("yyyyMM"));
+        return new PopulationScrapYearMonth(yearMonth);
+    }
+
+
     private PopulationScrapYearMonth(LocalDate yearMonth) {
         this.yearMonth = yearMonth;
     }

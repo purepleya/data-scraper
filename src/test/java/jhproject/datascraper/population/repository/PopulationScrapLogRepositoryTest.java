@@ -11,6 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,26 +27,29 @@ class PopulationScrapLogRepositoryTest {
     @Autowired
     private PopulationScrapLogRepository populationScrapLogRepository;
 
-
     @Test
-    @DisplayName("로그 데이터가 없으면 빈 값을 반환한다.")
     @Sql("/sql/population/repository/CREATE_population_scrap_log.sql")
-    void getLastLog_shouldReturn_empty_whenNoLog() {
-        Optional<PopulationScrapLog> result = populationScrapLogRepository.getLastLog();
+    @DisplayName("종료일자(scrapEndDtm) 기준으로 마지막 로그를 가져온다.")
+    void getLastLog() {
 
-        assertTrue(result.isEmpty());
+        populationScrapLogRepository.saveAllAndFlush(
+                List.of(
+                        new PopulationScrapLog("202210", "100000", 1, 1, LocalDateTime.of(2023, 11, 22, 20, 0, 0), LocalDateTime.of(2023, 11, 22, 20, 5, 0)),
+                        new PopulationScrapLog("202210", "100001", 2, 1, LocalDateTime.of(2023, 11, 22, 20, 10, 0), LocalDateTime.of(2023, 11, 22, 20, 15, 0)),
+                        new PopulationScrapLog("202210", "100002", 2, 1, LocalDateTime.of(2023, 11, 22, 20, 20, 0), LocalDateTime.of(2023, 11, 22, 20, 25, 0)),
+                        new PopulationScrapLog("202210", "100003", 2, 1, LocalDateTime.of(2023, 11, 22, 20, 30, 0), LocalDateTime.of(2023, 11, 22, 20, 35, 0))
+                )
+        );
+
+
+        Optional<PopulationScrapLog> lastLogOptional = populationScrapLogRepository.getLastLog();
+
+        assertTrue(lastLogOptional.isPresent());
+        PopulationScrapLog lastLog = lastLogOptional.get();
+        assertEquals(lastLog.getStdgCd(), "100003");
+        assertEquals(lastLog.getScrapEndDtm().toString(), "2023-11-22 20:35:00.0");
     }
 
 
-    @Test
-    @DisplayName("로그 데이터가 있으면 마지막 로그를 반환한다.")
-    @Sql({"/sql/population/repository/CREATE_population_scrap_log.sql", "/sql/population/repository/getLastLog_shouldReturn_lastLog_whenExistLog.sql"})
-    void getLastLog_shouldReturn_lastLog_whenExistLog() {
-        Optional<PopulationScrapLog> result = populationScrapLogRepository.getLastLog();
-
-        assertTrue(result.isPresent());
-        assertEquals(2022, result.get().getYyyy());
-        assertEquals(10, result.get().getMm());
-    }
 
 }

@@ -29,6 +29,12 @@ public class PopulationScrapParameter {
         this.pageNo = pageNo;
     }
 
+
+    public static PopulationScrapParameter first() {
+        return PopulationScrapParameter.firstOf(PopulationScrapYearMonth.FIRST_YEAR_MONTH);
+    }
+
+
     public static PopulationScrapParameter firstOf(@NonNull PopulationScrapYearMonth yearMonth) {
         return new PopulationScrapParameter(
                 yearMonth.getYearMonth(),

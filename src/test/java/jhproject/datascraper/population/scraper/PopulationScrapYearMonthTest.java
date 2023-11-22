@@ -12,7 +12,7 @@ class PopulationScrapYearMonthTest {
     @Test
     @DisplayName("null Argument로 생성하면 NullPointerException이 발생한다.")
     void of_shouldThrowException_whenNullArgument() {
-        assertThrows(NullPointerException.class, () -> PopulationScrapYearMonth.of(null));
+        assertThrows(NullPointerException.class, () -> PopulationScrapYearMonth.of((LocalDate) null));
     }
 
     @Test
