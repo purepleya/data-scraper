@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class PopulationScrapLogRepository  {
     }
 
 
+    @Transactional
     public List<PopulationScrapLog> saveAllAndFlush(Iterable<PopulationScrapLog> entities) {
         JpaRepository<PopulationScrapLog, Long> defaultRepository = new SimpleJpaRepository<>(PopulationScrapLog.class, entityManager);
         return defaultRepository.saveAllAndFlush(entities);

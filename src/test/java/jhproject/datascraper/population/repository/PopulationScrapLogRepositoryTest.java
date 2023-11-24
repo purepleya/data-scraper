@@ -12,6 +12,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ class PopulationScrapLogRepositoryTest {
         assertTrue(lastLogOptional.isPresent());
         PopulationScrapLog lastLog = lastLogOptional.get();
         assertEquals(lastLog.getStdgCd(), "100003");
-        assertEquals(lastLog.getScrapEndDtm().toString(), "2023-11-22 20:35:00.0");
+        assertEquals(lastLog.getScrapEndDtm().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "2023-11-22 20:35:00");
     }
 
 
