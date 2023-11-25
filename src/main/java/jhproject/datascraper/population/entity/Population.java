@@ -10,12 +10,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "population")
 public class Population {
 
-//    private final String yearMonth;
-//    private final String stdgCd;
-//    private final int lv;
-//    private final int regSeCd;
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,7 +19,7 @@ public class Population {
     private String yyyyMm;
 
     @Column(name = "reg_se_cd")
-    private String regSeCd;
+    private Integer regSeCd;
 
     @Column(name = "ctpv_nm")
     private String ctpvNm;
@@ -41,6 +35,9 @@ public class Population {
 
     @Column(name = "li_nm")
     private String liNm;
+
+    @Column(name = "lv")
+    private Integer lv;
 
     @Column(name = "stdg_cd")
     private String stdgCd;
@@ -132,8 +129,8 @@ public class Population {
     @Column(name = "stats_ym")
     private String statsYm;
 
-    public Population(String yyyyMm, String regSeCd, String ctpvNm, String dongNm, String tong, String ban, String liNm,
-                      String stdgCd, String stdgNm, String sggNm, String admmCd,
+    public Population(String yyyyMm, Integer regSeCd, String ctpvNm, String dongNm, String tong, String ban, String liNm,
+                      Integer lv, String stdgCd, String stdgNm, String sggNm, String admmCd,
                       Integer male0AgeNmprCnt, Integer feml0AgeNmprCnt, Integer male10AgeNmprCnt,Integer feml10AgeNmprCnt,
                       Integer male20AgeNmprCnt, Integer feml20AgeNmprCnt, Integer male30AgeNmprCnt, Integer feml30AgeNmprCnt,
                       Integer male40AgeNmprCnt, Integer feml40AgeNmprCnt, Integer male50AgeNmprCnt, Integer feml50AgeNmprCnt,
@@ -148,6 +145,7 @@ public class Population {
         this.tong = tong;
         this.ban = ban;
         this.liNm = liNm;
+        this.lv = lv;
         this.stdgCd = stdgCd;
         this.stdgNm = stdgNm;
         this.sggNm = sggNm;
@@ -179,4 +177,5 @@ public class Population {
         this.totNmprCnt = totNmprCnt;
         this.statsYm = statsYm;
     }
+
 }

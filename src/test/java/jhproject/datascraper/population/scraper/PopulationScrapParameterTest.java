@@ -1,6 +1,7 @@
 package jhproject.datascraper.population.scraper;
 
 import jhproject.datascraper.population.PopulationScrapData;
+import jhproject.datascraper.population.entity.Population;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -192,10 +193,10 @@ class PopulationScrapParameterTest {
     void nextRegSeCd1() {
         PopulationScrapParameter regSeCd1 = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 1, 1, 1);
 
-        Optional<PopulationScrapParameter> regSeCd2Optional = regSeCd1.getNextRegSeCd();
+        Optional<PopulationScrapParameter> regSeCd2Optional = regSeCd1.getNextRegSeCdParameter();
         PopulationScrapParameter regSeCd2 = regSeCd2Optional.get();
 
-        Optional<PopulationScrapParameter> regSeCd3Optional = regSeCd2.getNextRegSeCd();
+        Optional<PopulationScrapParameter> regSeCd3Optional = regSeCd2.getNextRegSeCdParameter();
         PopulationScrapParameter regSeCd3 = regSeCd3Optional.get();
 
 
@@ -220,9 +221,46 @@ class PopulationScrapParameterTest {
     @DisplayName("다음 regSeCd 파라미터 기만의 파라미터 객체를 반환할때, 다음 regSeCd 가 없으면 Optional.empty() 를 반환한다.")
     void nextRegSeCd2() {
         PopulationScrapParameter regSeCd4 = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 1, 4, 1);
-        Optional<PopulationScrapParameter> regSeCd5Optional = regSeCd4.getNextRegSeCd();
+        Optional<PopulationScrapParameter> regSeCd5Optional = regSeCd4.getNextRegSeCdParameter();
 
         assertTrue(regSeCd5Optional.isEmpty());
     }
+
+
+    @Test
+    @DisplayName("next() 테스트 - 동일한 RegSeCd에서 현재 레벨의 데이터가 모두 처리 되지 않았다면 다음 동일조건의 다음 stdgCd를 가지는 파라미터를 반환한다.")
+    void whenNotAllDataCollectedInSameLv_returnNextStdgCdParameter() {
+
+//        PopulationScrapParameter lv1RegSeCd1 = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 1, 1, 1);
+//        PopulationScrapParameter lv1RegSeCd2 = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 1, 2, 1);
+//        PopulationScrapParameter lv1RegSeCd3 = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 1, 3, 1);
+//        PopulationScrapParameter lv1RegSeCd4 = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 1, 4, 1);
+
+        List<Population> results = List.of(
+                new Population(lv1RegSeCd1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "111", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new Population(lv1RegSeCd1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "222", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new Population(lv1RegSeCd1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "333", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                new Population(lv1RegSeCd1, new PublicDataPopulationGetResponse.Item(null, null, null, null, null, "444", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null))
+        );
+
+        Optional<PopulationScrapParameter> nextParameterOptional = lv1RegSeCd1.next(results);
+
+    }
+
+    @Test
+    @DisplayName("next() 테스트 - 마지막 레벨, 마지막 RegSeCd 인 경우 다음 달의 첫번째 레벨, 첫번째 RegSeCd 를 반환한다.")
+    void whenLastLvAndLastRegSeCd_returnNextMonthFirstLvFirstRegSeCd() {
+        PopulationScrapParameter lastLvLastRegSeCd = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 4, 4, 1);
+        Optional<PopulationScrapParameter> nextParameterOptional = lastLvLastRegSeCd.next();
+
+        assertTrue(nextParameterOptional.isPresent());
+        PopulationScrapParameter nextParameter = nextParameterOptional.get();
+        assertEquals("202211", nextParameter.getYearMonth());
+        assertEquals("1000000000", nextParameter.getStdgCd());
+        assertEquals(1, nextParameter.getLv());
+        assertEquals(1, nextParameter.getRegSeCd());
+        assertEquals(1, nextParameter.getPageNo());
+    }
+
 
 }

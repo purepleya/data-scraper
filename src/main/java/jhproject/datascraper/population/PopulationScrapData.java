@@ -8,12 +8,13 @@ import lombok.Getter;
 @Getter
 public class PopulationScrapData {
     private final String yyyyMm;
-    private final String regSeCd;
+    private final Integer regSeCd;
     private final String ctpvNm;
     private final String dongNm;
     private final String tong;
     private final String ban;
     private final String liNm;
+    private final Integer lv;
     private final String stdgCd;
     private final String stdgNm;
     private final String sggNm;
@@ -48,12 +49,13 @@ public class PopulationScrapData {
 
     public PopulationScrapData(PopulationScrapParameter parameter, PublicDataPopulationGetResponse.Item responseItem) {
         this.yyyyMm = parameter.getYearMonth();
-        this.regSeCd = String.valueOf(parameter.getRegSeCd());
+        this.regSeCd = parameter.getRegSeCd();
         this.ctpvNm = responseItem.getCtpvNm();
         this.dongNm = responseItem.getDongNm();
         this.tong = responseItem.getTong();
         this.ban = responseItem.getBan();
         this.liNm = responseItem.getLiNm();
+        this.lv = parameter.getLv();
         this.stdgCd = responseItem.getStdgCd();
         this.stdgNm = responseItem.getStdgNm();
         this.sggNm = responseItem.getSggNm();
@@ -95,6 +97,7 @@ public class PopulationScrapData {
                 tong,
                 ban,
                 liNm,
+                lv,
                 stdgCd,
                 stdgNm,
                 sggNm,

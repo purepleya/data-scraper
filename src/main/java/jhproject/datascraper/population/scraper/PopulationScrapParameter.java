@@ -1,6 +1,7 @@
 package jhproject.datascraper.population.scraper;
 
 import jhproject.datascraper.population.PopulationScrapData;
+import jhproject.datascraper.population.entity.PopulationScrapLog;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.util.CollectionUtils;
@@ -29,10 +30,28 @@ public class PopulationScrapParameter {
         this.pageNo = pageNo;
     }
 
+    public PopulationScrapParameter(PopulationScrapLog populationScrapLog) {
+        this.yearMonth = populationScrapLog.getYearMonth();
+        this.stdgCd = populationScrapLog.getStdgCd();
+        this.lv = populationScrapLog.getLv();
+        this.regSeCd = populationScrapLog.getRegSeCd();
+        this.pageNo = 1;
+    }
 
     public static PopulationScrapParameter first() {
         return PopulationScrapParameter.firstOf(PopulationScrapYearMonth.FIRST_YEAR_MONTH);
     }
+
+
+    public Optional<PopulationScrapParameter> next() {
+        if (!hasNextLv() & !hasNextRegSeCd()) {
+            var nextMonthParameter = PopulationScrapParameter.firstOf(PopulationScrapYearMonth.of(yearMonth).nextMonth());
+            return Optional.of(nextMonthParameter);
+        }
+
+        return Optional.empty();
+    }
+
 
 
     public static PopulationScrapParameter firstOf(@NonNull PopulationScrapYearMonth yearMonth) {
@@ -97,7 +116,7 @@ public class PopulationScrapParameter {
                 .count() > 0;
     }
 
-    public Optional<PopulationScrapParameter> getNextRegSeCd() {
+    public Optional<PopulationScrapParameter> getNextRegSeCdParameter() {
         if (!hasNextRegSeCd()) {
             return Optional.empty();
         }

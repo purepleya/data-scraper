@@ -22,7 +22,7 @@ public class PopulationRegSeCdScraper {
 
         List<PopulationScrapData> result = new ArrayList<>(populationLvScraper.scrap(parameter));
 
-        Optional<PopulationScrapParameter> nextRegSeCdParameterOptional = parameter.getNextRegSeCd();
+        Optional<PopulationScrapParameter> nextRegSeCdParameterOptional = parameter.getNextRegSeCdParameter();
         nextRegSeCdParameterOptional.ifPresent(nextParameter -> result.addAll(scrap(nextParameter)));
 
         return result;

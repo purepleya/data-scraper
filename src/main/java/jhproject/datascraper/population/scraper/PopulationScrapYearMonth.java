@@ -3,6 +3,7 @@ package jhproject.datascraper.population.scraper;
 import lombok.NonNull;
 import org.springframework.cglib.core.Local;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -17,10 +18,9 @@ public class PopulationScrapYearMonth {
     }
 
     public static PopulationScrapYearMonth of(@NonNull String yearMonthString) {
-        LocalDate yearMonth = LocalDate.parse(yearMonthString, DateTimeFormatter.ofPattern("yyyyMM"));
+        LocalDate yearMonth = LocalDate.parse(yearMonthString + "01", DateTimeFormatter.ofPattern("yyyyMMdd"));
         return new PopulationScrapYearMonth(yearMonth);
     }
-
 
     private PopulationScrapYearMonth(LocalDate yearMonth) {
         this.yearMonth = yearMonth;

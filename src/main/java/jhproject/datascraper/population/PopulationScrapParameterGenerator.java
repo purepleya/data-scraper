@@ -25,22 +25,11 @@ public class PopulationScrapParameterGenerator {
             return Optional.of(PopulationScrapParameter.first());
         }
 
-        if (allParametersScraped()) {
-            String lastYearMonthString = "";
-            PopulationScrapYearMonth lastYearMonth = PopulationScrapYearMonth.of(lastYearMonthString);
+        PopulationScrapParameter lastParameter = new PopulationScrapParameter(lastLogOptional.get());
+        Optional<PopulationScrapParameter> nextParameterOptional = lastParameter.next();
 
-            return Optional.of(PopulationScrapParameter.firstOf(lastYearMonth.nextMonth()));
-        }
-
-        return Optional.empty();
+        return nextParameterOptional;
     }
 
-    public PopulationScrapParameterGenerator() {
-        this.populationScrapLogRepository = null;
-    }
 
-    private boolean allParametersScraped() {
-//        TODO: implement
-        return true;
-    }
 }
