@@ -1,12 +1,14 @@
 package jhproject.datascraper.population.scraper;
 
 import jhproject.datascraper.population.PopulationScrapData;
+import jhproject.datascraper.population.entity.Population;
 import jhproject.datascraper.population.entity.PopulationScrapLog;
 import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,15 +45,30 @@ public class PopulationScrapParameter {
     }
 
 
-    public Optional<PopulationScrapParameter> next() {
+    public Optional<PopulationScrapParameter> next(List<Population> currentResults) {
         if (!hasNextLv() & !hasNextRegSeCd()) {
             var nextMonthParameter = PopulationScrapParameter.firstOf(PopulationScrapYearMonth.of(yearMonth).nextMonth());
             return Optional.of(nextMonthParameter);
         }
 
+        Optional<Population> nextTargetResult = currentResults.stream()
+                .filter(p -> p.getLv() == this.lv && p.getRegSeCd() == this.regSeCd)
+                .filter(p -> p.getStdgCd().compareTo(this.stdgCd) > 0)
+                .sorted(Comparator.comparing(Population::getStdgCd))
+                .findFirst();
+
+        if (nextTargetResult.isPresent()) {
+            return Optional.of(new PopulationScrapParameter(
+                    this.yearMonth,
+                    nextTargetResult.get().getStdgCd(),
+                    nextTargetResult.get().getLv(),
+                    this.regSeCd,
+                    1
+            ));
+        }
+
         return Optional.empty();
     }
-
 
 
     public static PopulationScrapParameter firstOf(@NonNull PopulationScrapYearMonth yearMonth) {
@@ -122,12 +139,12 @@ public class PopulationScrapParameter {
         }
 
         return Optional.of(new PopulationScrapParameter(
-                        this.yearMonth,
-                        this.stdgCd,
-                        this.lv,
-                        this.regSeCd + 1,
-                        1
-                ));
+                this.yearMonth,
+                this.stdgCd,
+                this.lv,
+                this.regSeCd + 1,
+                1
+        ));
     }
 
 }

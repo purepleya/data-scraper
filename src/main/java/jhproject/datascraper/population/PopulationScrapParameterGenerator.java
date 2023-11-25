@@ -1,13 +1,12 @@
 package jhproject.datascraper.population;
 
 import jhproject.datascraper.population.entity.PopulationScrapLog;
-import jhproject.datascraper.population.repository.PopulationRepository;
 import jhproject.datascraper.population.repository.PopulationScrapLogRepository;
 import jhproject.datascraper.population.scraper.PopulationScrapParameter;
-import jhproject.datascraper.population.scraper.PopulationScrapYearMonth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +25,7 @@ public class PopulationScrapParameterGenerator {
         }
 
         PopulationScrapParameter lastParameter = new PopulationScrapParameter(lastLogOptional.get());
-        Optional<PopulationScrapParameter> nextParameterOptional = lastParameter.next();
+        Optional<PopulationScrapParameter> nextParameterOptional = lastParameter.next(List.of());
 
         return nextParameterOptional;
     }

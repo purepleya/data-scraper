@@ -5,6 +5,8 @@ import jhproject.datascraper.population.scraper.PopulationScrapParameter;
 import jhproject.datascraper.population.scraper.PublicDataPopulationGetResponse;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class PopulationScrapData {
     private final String yyyyMm;
@@ -55,37 +57,41 @@ public class PopulationScrapData {
         this.tong = responseItem.getTong();
         this.ban = responseItem.getBan();
         this.liNm = responseItem.getLiNm();
-        this.lv = parameter.getLv();
+        this.lv = parameter.getLv() + 1;
         this.stdgCd = responseItem.getStdgCd();
         this.stdgNm = responseItem.getStdgNm();
         this.sggNm = responseItem.getSggNm();
         this.admmCd = responseItem.getAdmmCd();
-        this.male0AgeNmprCnt = Integer.parseInt(responseItem.getMale0AgeNmprCnt());
-        this.feml0AgeNmprCnt = Integer.parseInt(responseItem.getFeml0AgeNmprCnt());
-        this.male10AgeNmprCnt = Integer.parseInt(responseItem.getMale10AgeNmprCnt());
-        this.feml10AgeNmprCnt = Integer.parseInt(responseItem.getFeml10AgeNmprCnt());
-        this.male20AgeNmprCnt = Integer.parseInt(responseItem.getMale20AgeNmprCnt());
-        this.feml20AgeNmprCnt = Integer.parseInt(responseItem.getFeml20AgeNmprCnt());
-        this.male30AgeNmprCnt = Integer.parseInt(responseItem.getMale30AgeNmprCnt());
-        this.feml30AgeNmprCnt = Integer.parseInt(responseItem.getFeml30AgeNmprCnt());
-        this.male40AgeNmprCnt = Integer.parseInt(responseItem.getMale40AgeNmprCnt());
-        this.feml40AgeNmprCnt = Integer.parseInt(responseItem.getFeml40AgeNmprCnt());
-        this.male50AgeNmprCnt = Integer.parseInt(responseItem.getMale50AgeNmprCnt());
-        this.feml50AgeNmprCnt = Integer.parseInt(responseItem.getFeml50AgeNmprCnt());
-        this.male60AgeNmprCnt = Integer.parseInt(responseItem.getMale60AgeNmprCnt());
-        this.feml60AgeNmprCnt = Integer.parseInt(responseItem.getFeml60AgeNmprCnt());
-        this.male70AgeNmprCnt = Integer.parseInt(responseItem.getMale70AgeNmprCnt());
-        this.feml70AgeNmprCnt = Integer.parseInt(responseItem.getFeml70AgeNmprCnt());
-        this.male80AgeNmprCnt = Integer.parseInt(responseItem.getMale80AgeNmprCnt());
-        this.feml80AgeNmprCnt = Integer.parseInt(responseItem.getFeml80AgeNmprCnt());
-        this.male90AgeNmprCnt = Integer.parseInt(responseItem.getMale90AgeNmprCnt());
-        this.feml90AgeNmprCnt = Integer.parseInt(responseItem.getFeml90AgeNmprCnt());
-        this.male100AgeNmprCnt = Integer.parseInt(responseItem.getMale100AgeNmprCnt());
-        this.feml100AgeNmprCnt = Integer.parseInt(responseItem.getFeml100AgeNmprCnt());
-        this.maleNmprCnt = Integer.parseInt(responseItem.getMaleNmprCnt());
-        this.femlNmprCnt = Integer.parseInt(responseItem.getFemlNmprCnt());
-        this.totNmprCnt = Integer.parseInt(responseItem.getTotNmprCnt());
+        this.male0AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale0AgeNmprCnt());
+        this.feml0AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml0AgeNmprCnt());
+        this.male10AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale10AgeNmprCnt());
+        this.feml10AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml10AgeNmprCnt());
+        this.male20AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale20AgeNmprCnt());
+        this.feml20AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml20AgeNmprCnt());
+        this.male30AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale30AgeNmprCnt());
+        this.feml30AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml30AgeNmprCnt());
+        this.male40AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale40AgeNmprCnt());
+        this.feml40AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml40AgeNmprCnt());
+        this.male50AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale50AgeNmprCnt());
+        this.feml50AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml50AgeNmprCnt());
+        this.male60AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale60AgeNmprCnt());
+        this.feml60AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml60AgeNmprCnt());
+        this.male70AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale70AgeNmprCnt());
+        this.feml70AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml70AgeNmprCnt());
+        this.male80AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale80AgeNmprCnt());
+        this.feml80AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml80AgeNmprCnt());
+        this.male90AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale90AgeNmprCnt());
+        this.feml90AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml90AgeNmprCnt());
+        this.male100AgeNmprCnt = parseNullToZeroElseInt(responseItem.getMale100AgeNmprCnt());
+        this.feml100AgeNmprCnt = parseNullToZeroElseInt(responseItem.getFeml100AgeNmprCnt());
+        this.maleNmprCnt = parseNullToZeroElseInt(responseItem.getMaleNmprCnt());
+        this.femlNmprCnt = parseNullToZeroElseInt(responseItem.getFemlNmprCnt());
+        this.totNmprCnt = parseNullToZeroElseInt(responseItem.getTotNmprCnt());
         this.statsYm = responseItem.getStatsYm();
+    }
+
+    private Integer parseNullToZeroElseInt(String value) {
+        return Objects.isNull(value) ? 0 : Integer.parseInt(value);
     }
 
     public Population toEntity() {
