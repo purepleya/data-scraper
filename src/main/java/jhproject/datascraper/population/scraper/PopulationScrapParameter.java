@@ -51,23 +51,35 @@ public class PopulationScrapParameter {
             return Optional.of(nextMonthParameter);
         }
 
-        Optional<Population> nextTargetResult = currentResults.stream()
-                .filter(p -> p.getLv() == this.lv && p.getRegSeCd() == this.regSeCd)
-                .filter(p -> p.getStdgCd().compareTo(this.stdgCd) > 0)
-                .sorted(Comparator.comparing(Population::getStdgCd))
+        Optional<Population> resultByThis = currentResults.stream()
+                .filter(p -> p.getLv() == this.lv && p.getRegSeCd() == this.regSeCd && p.getStdgCd().equals(this.stdgCd))
                 .findFirst();
 
-        if (nextTargetResult.isPresent()) {
+        List<Population> sortedList = currentResults.stream()
+                .sorted(Comparator.comparing(Population::getLv))
+                .sorted(Comparator.comparing(Population::getStdgCd))
+                .toList();
+
+        if (resultByThis.isPresent()) {
+            Population nextTarget = sortedList.get(sortedList.indexOf(resultByThis.get()) + 1);
             return Optional.of(new PopulationScrapParameter(
                     this.yearMonth,
-                    nextTargetResult.get().getStdgCd(),
-                    nextTargetResult.get().getLv(),
+                    nextTarget.getStdgCd(),
+                    nextTarget.getLv(),
+                    this.regSeCd,
+                    1
+            ));
+        } else {
+
+            return Optional.of(new PopulationScrapParameter(
+                    this.yearMonth,
+                    sortedList.get(0).getStdgCd(),
+                    sortedList.get(0).getLv(),
                     this.regSeCd,
                     1
             ));
         }
 
-        return Optional.empty();
     }
 
 
