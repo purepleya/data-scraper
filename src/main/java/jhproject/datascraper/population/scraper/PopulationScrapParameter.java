@@ -46,11 +46,6 @@ public class PopulationScrapParameter {
 
 
     public Optional<PopulationScrapParameter> next(List<Population> currentResults) {
-        if (!hasNextLv() & !hasNextRegSeCd()) {
-            var nextMonthParameter = PopulationScrapParameter.firstOf(PopulationScrapYearMonth.of(yearMonth).nextMonth());
-            return Optional.of(nextMonthParameter);
-        }
-
         Optional<Population> resultByThis = currentResults.stream()
                 .filter(p -> p.getLv() == this.lv && p.getRegSeCd() == this.regSeCd && p.getStdgCd().equals(this.stdgCd))
                 .findFirst();
@@ -61,7 +56,25 @@ public class PopulationScrapParameter {
                 .toList();
 
         if (resultByThis.isPresent()) {
-            Population nextTarget = sortedList.get(sortedList.indexOf(resultByThis.get()) + 1);
+            int indexOfResultByThis = sortedList.indexOf(resultByThis.get());
+            
+            if (indexOfResultByThis == sortedList.size() - 1) {
+//                모든 지역을 다 scrap 한경우
+
+                if (hasNextRegSeCd()) {
+//                    아직 더 처리할 regSeCd가 남은 경우
+                    return Optional.of(new PopulationScrapParameter(
+                            this.yearMonth,
+                            PopulationScrapParameter.first().getStdgCd(),
+                            PopulationScrapParameter.first().getLv(),
+                            this.regSeCd + 1,
+                            1
+                    ));
+                }
+            }
+
+
+            Population nextTarget = sortedList.get(indexOfResultByThis + 1);
             return Optional.of(new PopulationScrapParameter(
                     this.yearMonth,
                     nextTarget.getStdgCd(),

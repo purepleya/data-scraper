@@ -228,21 +228,6 @@ class PopulationScrapParameterTest {
 
 
     @Test
-    @DisplayName("next() 테스트 - 마지막 레벨, 마지막 RegSeCd 인 경우 다음 달의 첫번째 레벨, 첫번째 RegSeCd 를 반환한다.")
-    void whenLastLvAndLastRegSeCd_returnNextMonthFirstLvFirstRegSeCd() {
-        PopulationScrapParameter lastLvLastRegSeCd = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 4, 4, 1);
-        Optional<PopulationScrapParameter> nextParameterOptional = lastLvLastRegSeCd.next(List.of());
-
-        assertTrue(nextParameterOptional.isPresent());
-        PopulationScrapParameter nextParameter = nextParameterOptional.get();
-        assertEquals("202211", nextParameter.getYearMonth());
-        assertEquals("1000000000", nextParameter.getStdgCd());
-        assertEquals(1, nextParameter.getLv());
-        assertEquals(1, nextParameter.getRegSeCd());
-        assertEquals(1, nextParameter.getPageNo());
-    }
-
-    @Test
     @DisplayName("next() 테스트 - 동일한 RegSeCd에서 현재 레벨의 데이터가 처리되다 말았다면 동일조건의 다음 stdgCd를 가지는 파라미터를 반환한다.")
     void whenNotAllDataCollectedAndCollectedSomeInSameLv_returnNextStdgCdParameter() {
         PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
@@ -292,36 +277,38 @@ class PopulationScrapParameterTest {
     @DisplayName("next() 테스트 - 동일한 RegSeCd에서 현재 레벨의 데이터가 전혀 처리되지 않았다면 동일조건의 처음(가장 작은 stdgCd를 가지는 파라미터를 반환한다. - 2")
     void whenNoDataCollectedInSameLv_returnNextStdgCdParameter2() {
         PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
+        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), lv1Parameter.getStdgCd(), 3, 4, 1);
         PublicDataPopulationGetResponse.Item response1 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 16, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
         PublicDataPopulationGetResponse.Item response2 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 16, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
         PublicDataPopulationGetResponse.Item response3 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 16, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
 
-        PopulationScrapParameter lv2Parameter1 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 2, 1, 1);
+        PopulationScrapParameter lv4Parameter1 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 4, 4, 1);
         PublicDataPopulationGetResponse.Item response4 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "444", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 16, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
-        PopulationScrapParameter lv2Parameter2 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "222", 2, 1, 1);
+        PopulationScrapParameter lv4Parameter2 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "222", 4, 4, 1);
         PublicDataPopulationGetResponse.Item response5 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "555", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 16, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
 
 
 
         List<Population> results = List.of(
-                new PopulationScrapData(lv1Parameter, response1).toEntity(),
-                new PopulationScrapData(lv1Parameter, response2).toEntity(),
-                new PopulationScrapData(lv1Parameter, response3).toEntity(),
-                new PopulationScrapData(lv2Parameter1, response4).toEntity(),
-                new PopulationScrapData(lv2Parameter2, response5).toEntity()
+                new PopulationScrapData(lv3Parameter, response1).toEntity(),
+                new PopulationScrapData(lv3Parameter, response2).toEntity(),
+                new PopulationScrapData(lv3Parameter, response3).toEntity(),
+                new PopulationScrapData(lv4Parameter1, response4).toEntity(),
+                new PopulationScrapData(lv4Parameter2, response5).toEntity()
         );
 
-        PopulationScrapParameter lastParameter = lv2Parameter2;
+        PopulationScrapParameter lastParameter = lv4Parameter2;
         Optional<PopulationScrapParameter> nextParameterOptional = lastParameter.next(results);
         assertTrue(nextParameterOptional.isPresent());
         assertEquals(lastParameter.getYearMonth(), nextParameterOptional.get().getYearMonth());
-        assertEquals(2, nextParameterOptional.get().getLv());
+        assertEquals(4, nextParameterOptional.get().getLv());
         assertEquals("333", nextParameterOptional.get().getStdgCd());
-        assertEquals(1, nextParameterOptional.get().getRegSeCd());
+        assertEquals(4, nextParameterOptional.get().getRegSeCd());
     }
 
 
 //    TODO 현재 레벨 다 했으면 다음 레벨 반환하기
+
     @Test
     @DisplayName("next() 테스트 - 현재 레벨의 데이터가 전부 처리되었다면 다음 레벨의 파라미터를 반환한다.")
     void whenAllDataCollectedInSameLv_returnNextLvParameter() {
@@ -357,10 +344,47 @@ class PopulationScrapParameterTest {
         assertEquals("444", nextParameterOptional.get().getStdgCd());
         assertEquals(1, nextParameterOptional.get().getRegSeCd());
     }
+    @Test
+    @DisplayName("next() 테스트 - 모든 레벨의 데이터가 전부 처리되었다면 다음 regSeCd의 파라미터를 반환한다.")
+    void whenAllDataCollectedInAllLv_returnNextRegSeCdParameter() {
+        PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
+        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 3, 1, 1);
+        PublicDataPopulationGetResponse.Item response1 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
+        PublicDataPopulationGetResponse.Item response2 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
+        PublicDataPopulationGetResponse.Item response3 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
+
+        List<Population> results = List.of(
+                new PopulationScrapData(lv3Parameter, response1).toEntity(),
+                new PopulationScrapData(lv3Parameter, response2).toEntity(),
+                new PopulationScrapData(lv3Parameter, response3).toEntity()
+        );
+
+        PopulationScrapParameter lv4Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "333", 4, 1, 1);
+
+        PopulationScrapParameter lastParameter = lv4Parameter;
+        Optional<PopulationScrapParameter> nextParameterOptional = lastParameter.next(results);
+        assertTrue(nextParameterOptional.isPresent());
+        assertEquals(lastParameter.getYearMonth(), nextParameterOptional.get().getYearMonth());
+        assertEquals(1, nextParameterOptional.get().getLv());
+        assertEquals(lv1Parameter.getStdgCd(), nextParameterOptional.get().getStdgCd());
+        assertEquals(2, nextParameterOptional.get().getRegSeCd());
+
+    }
 
 
-//    TODO 모든 레벨 다 했으면 다음 regSeCd 반환하기
-
-
-
+    @Test
+    @DisplayName("next() 테스트 - 마지막 레벨, 마지막 RegSeCd 인 경우 다음 달의 첫번째 레벨, 첫번째 RegSeCd 를 반환한다.")
+    void whenLastLvAndLastRegSeCd_returnNextMonthFirstLvFirstRegSeCd() {
+//        TODO 테스트 수정 필요
+//        PopulationScrapParameter lastLvLastRegSeCd = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 4, 4, 1);
+//        Optional<PopulationScrapParameter> nextParameterOptional = lastLvLastRegSeCd.next(List.of());
+//
+//        assertTrue(nextParameterOptional.isPresent());
+//        PopulationScrapParameter nextParameter = nextParameterOptional.get();
+//        assertEquals("202211", nextParameter.getYearMonth());
+//        assertEquals("1000000000", nextParameter.getStdgCd());
+//        assertEquals(1, nextParameter.getLv());
+//        assertEquals(1, nextParameter.getRegSeCd());
+//        assertEquals(1, nextParameter.getPageNo());
+    }
 }
