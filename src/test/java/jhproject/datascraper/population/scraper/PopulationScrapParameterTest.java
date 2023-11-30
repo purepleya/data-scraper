@@ -344,6 +344,7 @@ class PopulationScrapParameterTest {
         assertEquals("444", nextParameterOptional.get().getStdgCd());
         assertEquals(1, nextParameterOptional.get().getRegSeCd());
     }
+
     @Test
     @DisplayName("next() 테스트 - 모든 레벨의 데이터가 전부 처리되었다면 다음 regSeCd의 파라미터를 반환한다.")
     void whenAllDataCollectedInAllLv_returnNextRegSeCdParameter() {
@@ -375,16 +376,28 @@ class PopulationScrapParameterTest {
     @Test
     @DisplayName("next() 테스트 - 마지막 레벨, 마지막 RegSeCd 인 경우 다음 달의 첫번째 레벨, 첫번째 RegSeCd 를 반환한다.")
     void whenLastLvAndLastRegSeCd_returnNextMonthFirstLvFirstRegSeCd() {
-//        TODO 테스트 수정 필요
-//        PopulationScrapParameter lastLvLastRegSeCd = new PopulationScrapParameter(PopulationScrapYearMonth.FIRST_YEAR_MONTH.getYearMonth(), "1000000000", 4, 4, 1);
-//        Optional<PopulationScrapParameter> nextParameterOptional = lastLvLastRegSeCd.next(List.of());
-//
-//        assertTrue(nextParameterOptional.isPresent());
-//        PopulationScrapParameter nextParameter = nextParameterOptional.get();
-//        assertEquals("202211", nextParameter.getYearMonth());
-//        assertEquals("1000000000", nextParameter.getStdgCd());
-//        assertEquals(1, nextParameter.getLv());
-//        assertEquals(1, nextParameter.getRegSeCd());
-//        assertEquals(1, nextParameter.getPageNo());
+        PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
+        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 3, 4, 1);
+        PublicDataPopulationGetResponse.Item response1 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
+        PublicDataPopulationGetResponse.Item response2 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
+        PublicDataPopulationGetResponse.Item response3 = new PublicDataPopulationGetResponse.Item("ctpvNm", "dongNm", "tong", "ban", "liNm", "333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm");
+
+        List<Population> results = List.of(
+                new PopulationScrapData(lv3Parameter, response1).toEntity(),
+                new PopulationScrapData(lv3Parameter, response2).toEntity(),
+                new PopulationScrapData(lv3Parameter, response3).toEntity()
+        );
+
+        PopulationScrapParameter lv4Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "333", 4, 4, 1);
+
+        PopulationScrapParameter lastParameter = lv4Parameter;
+        Optional<PopulationScrapParameter> nextParameterOptional = lastParameter.next(results);
+        PopulationScrapParameter firstParameterOfNextMonth = PopulationScrapParameter.firstOf(PopulationScrapYearMonth.FIRST_YEAR_MONTH.nextMonth());
+
+        assertTrue(nextParameterOptional.isPresent());
+        assertEquals(firstParameterOfNextMonth.getYearMonth(), nextParameterOptional.get().getYearMonth());
+        assertEquals(firstParameterOfNextMonth.getLv(), nextParameterOptional.get().getLv());
+        assertEquals(firstParameterOfNextMonth.getStdgCd(), nextParameterOptional.get().getStdgCd());
+        assertEquals(firstParameterOfNextMonth.getRegSeCd(), nextParameterOptional.get().getRegSeCd());
     }
 }

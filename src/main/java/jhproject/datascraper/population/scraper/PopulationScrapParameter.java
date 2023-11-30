@@ -72,6 +72,15 @@ public class PopulationScrapParameter {
                             this.regSeCd + 1,
                             1
                     ));
+                } else {
+//                    모든 regSeCd를 다 scrap 한 경우
+                    return Optional.of(new PopulationScrapParameter(
+                            PopulationScrapYearMonth.of(this.yearMonth).nextMonth().getYearMonth(),
+                            PopulationScrapParameter.first().getStdgCd(),
+                            PopulationScrapParameter.first().getLv(),
+                            PopulationScrapParameter.first().getRegSeCd(),
+                            1
+                    ));
                 }
             }
 
