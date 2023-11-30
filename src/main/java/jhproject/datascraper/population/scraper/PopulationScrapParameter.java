@@ -45,12 +45,14 @@ public class PopulationScrapParameter {
     }
 
 
-    public Optional<PopulationScrapParameter> next(List<Population> currentResults) {
-        Optional<Population> resultByThis = currentResults.stream()
+//    최근 2개 레벨의 결과를 받아서 다음 scrap할 parameter를 반환한다.
+    public Optional<PopulationScrapParameter> next(List<Population> current2LvResults) {
+//        TODO NextPopulationScrapParameterBuilder로 내용 옮기기
+        Optional<Population> resultByThis = current2LvResults.stream()
                 .filter(p -> p.getLv() == this.lv && p.getRegSeCd() == this.regSeCd && p.getStdgCd().equals(this.stdgCd))
                 .findFirst();
 
-        List<Population> sortedList = currentResults.stream()
+        List<Population> sortedList = current2LvResults.stream()
                 .sorted(Comparator.comparing(Population::getLv))
                 .sorted(Comparator.comparing(Population::getStdgCd))
                 .toList();
