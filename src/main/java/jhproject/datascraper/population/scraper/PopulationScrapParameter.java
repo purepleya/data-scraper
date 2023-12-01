@@ -45,68 +45,6 @@ public class PopulationScrapParameter {
     }
 
 
-//    최근 2개 레벨의 결과를 받아서 다음 scrap할 parameter를 반환한다.
-    public Optional<PopulationScrapParameter> next(List<Population> current2LvResults) {
-//        TODO NextPopulationScrapParameterBuilder로 내용 옮기기
-        Optional<Population> resultByThis = current2LvResults.stream()
-                .filter(p -> p.getLv() == this.lv && p.getRegSeCd() == this.regSeCd && p.getStdgCd().equals(this.stdgCd))
-                .findFirst();
-
-        List<Population> sortedList = current2LvResults.stream()
-                .sorted(Comparator.comparing(Population::getLv))
-                .sorted(Comparator.comparing(Population::getStdgCd))
-                .toList();
-
-        if (resultByThis.isPresent()) {
-            int indexOfResultByThis = sortedList.indexOf(resultByThis.get());
-            
-            if (indexOfResultByThis == sortedList.size() - 1) {
-//                모든 지역을 다 scrap 한경우
-
-                if (hasNextRegSeCd()) {
-//                    아직 더 처리할 regSeCd가 남은 경우
-                    return Optional.of(new PopulationScrapParameter(
-                            this.yearMonth,
-                            PopulationScrapParameter.first().getStdgCd(),
-                            PopulationScrapParameter.first().getLv(),
-                            this.regSeCd + 1,
-                            1
-                    ));
-                } else {
-//                    모든 regSeCd를 다 scrap 한 경우
-                    return Optional.of(new PopulationScrapParameter(
-                            PopulationScrapYearMonth.of(this.yearMonth).nextMonth().getYearMonth(),
-                            PopulationScrapParameter.first().getStdgCd(),
-                            PopulationScrapParameter.first().getLv(),
-                            PopulationScrapParameter.first().getRegSeCd(),
-                            1
-                    ));
-                }
-            }
-
-
-            Population nextTarget = sortedList.get(indexOfResultByThis + 1);
-            return Optional.of(new PopulationScrapParameter(
-                    this.yearMonth,
-                    nextTarget.getStdgCd(),
-                    nextTarget.getLv(),
-                    this.regSeCd,
-                    1
-            ));
-        } else {
-
-            return Optional.of(new PopulationScrapParameter(
-                    this.yearMonth,
-                    sortedList.get(0).getStdgCd(),
-                    sortedList.get(0).getLv(),
-                    this.regSeCd,
-                    1
-            ));
-        }
-
-    }
-
-
     public static PopulationScrapParameter firstOf(@NonNull PopulationScrapYearMonth yearMonth) {
         return new PopulationScrapParameter(
                 yearMonth.getYearMonth(),
