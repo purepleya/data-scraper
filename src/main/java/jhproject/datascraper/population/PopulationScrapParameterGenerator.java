@@ -8,6 +8,7 @@ import jhproject.datascraper.population.scraper.PopulationScrapParameter;
 import jhproject.datascraper.population.scraper.PopulationScrapYearMonth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Comparator;
 import java.util.List;
@@ -39,6 +40,11 @@ public class PopulationScrapParameterGenerator {
     private Optional<PopulationScrapParameter> generateNext(PopulationScrapParameter currentParameter) {
 //        현재 파라미터와 YearMonth, RegSeCd가 같고, Lv가 같거나 큰 결과를 조회한다.
         List<Population> currentResults = populationRepository.findByYearMonthAndRegSeCdAndGoeLv(currentParameter.getYearMonth(), currentParameter.getRegSeCd(), currentParameter.getLv());
+
+        if (CollectionUtils.isEmpty(currentResults)) {
+//            조회 결과가 없다면 현재 파라미터의 다음 regSeCd로 넘어간다.
+            return Optional.of(buildNextRegSeCdFirstParameter(currentParameter));
+        }
 
 //        결과 중에서 현재 파라미터의 결과 값을 찾는다.
         Optional<Population> resultByThis = currentResults.stream()
@@ -90,8 +96,8 @@ public class PopulationScrapParameterGenerator {
         );
     }
 
-    private PopulationScrapParameter buildNextMonthFirstParameter(String yearMonth) {
-        PopulationScrapYearMonth populationScrapYearMonth = PopulationScrapYearMonth.of(yearMonth);
+    private PopulationScrapParameter buildNextMonthFirstParameter(String currentYearMonth) {
+        PopulationScrapYearMonth populationScrapYearMonth = PopulationScrapYearMonth.of(currentYearMonth);
 
         return new PopulationScrapParameter(
                 populationScrapYearMonth.nextMonth().getYearMonth(),
@@ -103,14 +109,18 @@ public class PopulationScrapParameterGenerator {
     }
 
     private PopulationScrapParameter buildNextRegSeCdFirstParameter(PopulationScrapParameter currentParameter) {
-
-        return new PopulationScrapParameter(
-                currentParameter.getYearMonth(),
-                PopulationScrapParameter.first().getStdgCd(),
-                PopulationScrapParameter.first().getLv(),
-                currentParameter.getRegSeCd() + 1,
-                1
-        );
+        if (currentParameter.hasNextRegSeCd()) {
+            return new PopulationScrapParameter(
+                    currentParameter.getYearMonth(),
+                    PopulationScrapParameter.first().getStdgCd(),
+                    PopulationScrapParameter.first().getLv(),
+                    currentParameter.getRegSeCd() + 1,
+                    1
+            );
+        } else {
+//            현재 파라미터의 regSeCd가 마지막이라면 다음 달로 넘어간다.
+            return buildNextMonthFirstParameter(currentParameter.getYearMonth());
+        }
     }
 
 }
