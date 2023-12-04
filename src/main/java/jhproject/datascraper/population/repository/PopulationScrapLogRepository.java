@@ -34,4 +34,11 @@ public class PopulationScrapLogRepository  {
         return defaultRepository.saveAllAndFlush(entities);
     }
 
+
+    @Transactional
+    public void save(PopulationScrapLog entity) {
+        JpaRepository<PopulationScrapLog, Long> defaultRepository = new SimpleJpaRepository<>(PopulationScrapLog.class, entityManager);
+        defaultRepository.save(entity);
+    }
+
 }

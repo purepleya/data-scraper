@@ -24,7 +24,15 @@ public class PopulationScrapParameter {
     private final int pageNo;
 
 
-    public PopulationScrapParameter(String yearMonth, String stdgCd, int lv, int regSeCd, int pageNo) {
+    public PopulationScrapParameter(String yearMonth, String stdgCd, int lv, int regSeCd) {
+        this.yearMonth = yearMonth;
+        this.stdgCd = stdgCd;
+        this.lv = lv;
+        this.regSeCd = regSeCd;
+        this.pageNo = 1;
+    }
+
+    private PopulationScrapParameter(String yearMonth, String stdgCd, int lv, int regSeCd, int pageNo) {
         this.yearMonth = yearMonth;
         this.stdgCd = stdgCd;
         this.lv = lv;
@@ -50,7 +58,6 @@ public class PopulationScrapParameter {
                 yearMonth.getYearMonth(),
                 "1000000000",
                 1,
-                1,
                 1
         );
     }
@@ -65,27 +72,6 @@ public class PopulationScrapParameter {
         );
     }
 
-    public boolean hasNextLv() {
-        return Arrays.stream(lvs)
-                .filter(lv -> lv > this.lv)
-                .count() > 0;
-    }
-
-    public List<PopulationScrapParameter> getNextLvParameters(List<PopulationScrapData> results) {
-        if (CollectionUtils.isEmpty(results) || !hasNextLv()) {
-            return List.of();
-        }
-
-        return results.stream()
-                .map(p -> new PopulationScrapParameter(
-                        this.yearMonth,
-                        p.getStdgCd(),
-                        this.lv + 1,
-                        this.regSeCd,
-                        1
-                ))
-                .toList();
-    }
 
     public PublicDataPopulationGetParameter toPublicDataPopulationGetParameter(String serviceKey) {
         return new PublicDataPopulationGetParameter(
@@ -107,18 +93,5 @@ public class PopulationScrapParameter {
                 .count() > 0;
     }
 
-    public Optional<PopulationScrapParameter> getNextRegSeCdParameter() {
-        if (!hasNextRegSeCd()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new PopulationScrapParameter(
-                this.yearMonth,
-                this.stdgCd,
-                this.lv,
-                this.regSeCd + 1,
-                1
-        ));
-    }
 
 }

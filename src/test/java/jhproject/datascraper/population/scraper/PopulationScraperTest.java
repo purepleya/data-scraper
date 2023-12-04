@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PopulationScraperTest {
 
     private PopulationScraper buildScraper(PublicDataPopulationClient publicDataPopulationClient) {
-        return new PopulationScraper(new PopulationRegSeCdScraper(new PopulationLvScraper(new PopulationPageScraper(publicDataPopulationClient))));
+        return new PopulationScraper(publicDataPopulationClient);
     }
 
 
