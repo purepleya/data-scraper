@@ -1,16 +1,10 @@
 package jhproject.datascraper.population.scraper;
 
-import jhproject.datascraper.population.PopulationScrapData;
-import jhproject.datascraper.population.entity.Population;
 import jhproject.datascraper.population.entity.PopulationScrapLog;
 import lombok.Getter;
 import lombok.NonNull;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 
 @Getter
 public class PopulationScrapParameter {
@@ -93,5 +87,11 @@ public class PopulationScrapParameter {
                 .count() > 0;
     }
 
+
+    public boolean isInvalid() {
+        return Arrays.stream(lvs).filter(lv -> lv == this.lv).count() == 0
+                || Arrays.stream(regSeCds).filter(regSeCd -> regSeCd == this.regSeCd).count() == 0
+                || !PopulationScrapYearMonth.of(this.yearMonth).isValid();
+    }
 
 }

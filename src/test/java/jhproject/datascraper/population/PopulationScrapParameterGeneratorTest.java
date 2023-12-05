@@ -143,9 +143,9 @@ class PopulationScrapParameterGeneratorTest {
     @DisplayName("next() 테스트 - 동일한 RegSeCd에서 현재 레벨의 데이터가 전혀 처리되지 않았다면 동일조건의 처음(가장 작은 stdgCd를 가지는 파라미터를 반환한다. - 2")
     void whenNoDataCollectedInSameLv_returnNextStdgCdParameter2() {
         PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
-        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), lv1Parameter.getStdgCd(), 3, 4, 1);
-        PopulationScrapParameter lv4Parameter1 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 4, 4, 1);
-        PopulationScrapParameter lv4Parameter2 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "222", 4, 4, 1);
+        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), lv1Parameter.getStdgCd(), 3, 4);
+        PopulationScrapParameter lv4Parameter1 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 4, 4);
+        PopulationScrapParameter lv4Parameter2 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "222", 4, 4);
 
         when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
                 .thenReturn(List.of(
@@ -174,9 +174,9 @@ class PopulationScrapParameterGeneratorTest {
     @DisplayName("next() 테스트 - 현재 레벨의 데이터가 전부 처리되었다면 다음 레벨의 파라미터를 반환한다.")
     void whenAllDataCollectedInSameLv_returnNextLvParameter() {
         PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
-        PopulationScrapParameter lv2Parameter1 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 2, 1, 1);
-        PopulationScrapParameter lv2Parameter2 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "222", 2, 1, 1);
-        PopulationScrapParameter lv2Parameter3 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "333", 2, 1, 1);
+        PopulationScrapParameter lv2Parameter1 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 2, 1);
+        PopulationScrapParameter lv2Parameter2 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "222", 2, 1);
+        PopulationScrapParameter lv2Parameter3 = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "333", 2, 1);
 
         when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
                 .thenReturn(List.of(
@@ -206,8 +206,8 @@ class PopulationScrapParameterGeneratorTest {
     @DisplayName("next() 테스트 - 모든 레벨의 데이터가 전부 처리되었다면 다음 regSeCd의 파라미터를 반환한다.")
     void whenAllDataCollectedInAllLv_returnNextRegSeCdParameter() {
         PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
-        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 3, 1, 1);
-        PopulationScrapParameter lv4Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "333", 4, 1, 1);
+        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 3, 1);
+        PopulationScrapParameter lv4Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "333", 4, 1);
 
         when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
                 .thenReturn(List.of(
@@ -235,7 +235,7 @@ class PopulationScrapParameterGeneratorTest {
     @DisplayName("next() 테스트 - 마지막 레벨, 마지막 RegSeCd 인 경우 다음 달의 첫번째 레벨, 첫번째 RegSeCd 를 반환한다.")
     void whenLastLvAndLastRegSeCd_returnNextMonthFirstLvFirstRegSeCd() {
         PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
-        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 3, 4, 1);
+        PopulationScrapParameter lv3Parameter = new PopulationScrapParameter(lv1Parameter.getYearMonth(), "111", 3, 4);
 
         when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
                 .thenReturn(List.of(

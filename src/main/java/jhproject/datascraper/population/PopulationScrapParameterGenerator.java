@@ -91,8 +91,7 @@ public class PopulationScrapParameterGenerator {
                 currentParameter.getYearMonth(),
                 nextTarget.getStdgCd(),
                 nextTarget.getLv(),
-                currentParameter.getRegSeCd(),
-                1
+                currentParameter.getRegSeCd()
         );
     }
 
@@ -103,8 +102,7 @@ public class PopulationScrapParameterGenerator {
                 populationScrapYearMonth.nextMonth().getYearMonth(),
                 PopulationScrapParameter.first().getStdgCd(),
                 PopulationScrapParameter.first().getLv(),
-                PopulationScrapParameter.first().getRegSeCd(),
-                1
+                PopulationScrapParameter.first().getRegSeCd()
         );
     }
 
@@ -114,8 +112,7 @@ public class PopulationScrapParameterGenerator {
                     currentParameter.getYearMonth(),
                     PopulationScrapParameter.first().getStdgCd(),
                     PopulationScrapParameter.first().getLv(),
-                    currentParameter.getRegSeCd() + 1,
-                    1
+                    currentParameter.getRegSeCd() + 1
             );
         } else {
 //            현재 파라미터의 regSeCd가 마지막이라면 다음 달로 넘어간다.

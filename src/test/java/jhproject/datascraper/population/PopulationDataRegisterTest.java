@@ -34,8 +34,8 @@ class PopulationDataRegisterTest {
     @Sql("/sql/population/repository/CREATE_population.sql")
     @DisplayName("List<PopulationScrapData>를 파라미터를 Population 엔티티로 변환하여 저장한다.")
     void save() {
-        PopulationScrapParameter parameter1 = new PopulationScrapParameter("202210", "1", 1, 1, 1);
-        PopulationScrapParameter parameter2 = new PopulationScrapParameter("202212", "2", 2, 2, 2);
+        PopulationScrapParameter parameter1 = new PopulationScrapParameter("202210", "1", 1, 1);
+        PopulationScrapParameter parameter2 = new PopulationScrapParameter("202212", "2", 2, 2).nextPage();
 
         PublicDataPopulationGetResponse.Item responseItem1 = new PublicDataPopulationGetResponse.Item(
                 "ctpvNm", "dongNm", "tong", "ban", "liNm",

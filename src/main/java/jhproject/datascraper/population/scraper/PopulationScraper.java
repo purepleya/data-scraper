@@ -21,6 +21,10 @@ public class PopulationScraper {
     private final PublicDataPopulationClient publicDataPopulationClient;
 
     public List<PopulationScrapData> scrap(PopulationScrapParameter parameter) {
+        if (Objects.isNull(parameter) || parameter.isInvalid()) {
+            return List.of();
+        }
+
         PublicDataPopulationGetParameter getParameter = parameter.toPublicDataPopulationGetParameter(serviceKey);
         PublicDataPopulationGetResponse response = publicDataPopulationClient.getPopulation(getParameter);
         List<PopulationScrapData> result = convert(parameter, response);

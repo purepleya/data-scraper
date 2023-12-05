@@ -33,8 +33,11 @@ class PopulationScraperTest {
     void whenScrap_shouldReturnEmptyList() {
         PopulationScraper scraper = buildScraper(null);
 
-        List<PopulationScrapData> result = scraper.scrap(PopulationScrapYearMonth.of(LocalDate.of(2022, 10, 1).minusMonths(2)));
-        List<PopulationScrapData> result2 = scraper.scrap(PopulationScrapYearMonth.of(LocalDate.now()));
+        PopulationScrapParameter parameter = new PopulationScrapParameter("202206", "1000000000", 1, 1);
+        List<PopulationScrapData> result = scraper.scrap(parameter);
+
+        PopulationScrapParameter parameter2 = new PopulationScrapParameter(PopulationScrapYearMonth.of(LocalDate.now()).getYearMonth(), "1000000000", 1, 1);
+        List<PopulationScrapData> result2 = scraper.scrap(parameter2);
 
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -44,29 +47,33 @@ class PopulationScraperTest {
     }
 
 
+
     @Test
-    @DisplayName("scrap 함수는 모든 regSeCd에 대해서 scrap을 수행 해야 한다. (모든 lv, page에 대해 scrap을 수행하는 기능은 다른 Scraper 의 테스트를 통해 검증한다.)")
-    void whenScrap_shouldScrapAllRegSeCd() {
+    @DisplayName("모든페이지를 scrap 하고 결과를 반환한다.")
+    void whenScrap_shouldScrapAllPages() {
         PublicDataPopulationClient publicDataPopulationClient = (PublicDataPopulationGetParameter parameter) -> {
-            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 1, 1, "success");
+            PublicDataPopulationGetResponse.Head head = new PublicDataPopulationGetResponse.Head(parameter.getPageNo(), "0", 5, 1, "success");
             PublicDataPopulationGetResponse.Items items = new PublicDataPopulationGetResponse.Items(List.of());
-            if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("1")) {
+
+            if (parameter.getPageNo().equals(1)) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000001", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
-            } else if (parameter.getRegSeCd().equals("1") && parameter.getLv().equals("2")) {
+            } else if (parameter.getPageNo().equals(2)) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000011", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
-            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("1")) {
+            } else if (parameter.getPageNo().equals(3)) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000009", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
-            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("2")) {
+            } else if (parameter.getPageNo().equals(4)) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000019", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
-            } else if (parameter.getRegSeCd().equals("2") && parameter.getLv().equals("3")) {
+            } else if (parameter.getPageNo().equals(5)) {
                 items = new PublicDataPopulationGetResponse.Items(List.of(new PublicDataPopulationGetResponse.Item("서울특별시", "종로구", "1", "1", "1", "1000000119", "1", "1", "1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, parameter.getSrchFrYm())));
+            } else if (parameter.getPageNo() > 5) {
+                fail();
             }
             return new PublicDataPopulationGetResponse(head, items);
         };
 
         PopulationScraper scraper = buildScraper(publicDataPopulationClient);
 
-        List<PopulationScrapData> result = scraper.scrap(PopulationScrapYearMonth.FIRST_YEAR_MONTH);
+        List<PopulationScrapData> result = scraper.scrap(PopulationScrapParameter.first());
 
         assertNotNull(result);
         assertEquals(5, result.size());
@@ -75,7 +82,6 @@ class PopulationScraperTest {
         assertEquals("1000000009", result.get(2).getStdgCd());
         assertEquals("1000000019", result.get(3).getStdgCd());
         assertEquals("1000000119", result.get(4).getStdgCd());
-
     }
 
 }
