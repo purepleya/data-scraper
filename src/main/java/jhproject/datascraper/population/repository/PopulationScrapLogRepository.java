@@ -41,4 +41,9 @@ public class PopulationScrapLogRepository  {
         defaultRepository.save(entity);
     }
 
+    public List<PopulationScrapLog> findAll() {
+        JpaRepository<PopulationScrapLog, Long> defaultRepository = new SimpleJpaRepository<>(PopulationScrapLog.class, entityManager);
+        return defaultRepository.findAll();
+    }
+
 }
