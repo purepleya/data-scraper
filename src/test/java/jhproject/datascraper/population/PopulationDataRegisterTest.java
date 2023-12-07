@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @Import(TestContainerConfiguration.class)
 @TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto = none")
+@Transactional
 class PopulationDataRegisterTest {
 
     @Autowired
@@ -71,7 +73,7 @@ class PopulationDataRegisterTest {
 
         assertEquals(2, entities.size());
         assertEquals("202210", entities.get(0).getYyyyMm());
-        assertEquals("1", entities.get(0).getRegSeCd());
+        assertEquals(Integer.valueOf(1), entities.get(0).getRegSeCd());
         assertEquals("ctpvNm", entities.get(0).getCtpvNm());
         assertEquals("dongNm", entities.get(0).getDongNm());
         assertEquals("tong", entities.get(0).getTong());
@@ -109,7 +111,7 @@ class PopulationDataRegisterTest {
         assertEquals("statsYm", entities.get(0).getStatsYm());
 
         assertEquals("202212", entities.get(1).getYyyyMm());
-        assertEquals("2", entities.get(1).getRegSeCd());
+        assertEquals(Integer.valueOf(2), entities.get(1).getRegSeCd());
         assertEquals("ctpvNm", entities.get(1).getCtpvNm());
         assertEquals("dongNm", entities.get(1).getDongNm());
         assertEquals("tong", entities.get(1).getTong());
