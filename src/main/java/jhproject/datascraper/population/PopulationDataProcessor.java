@@ -5,11 +5,12 @@ import jhproject.datascraper.population.scraper.PopulationScraper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class PopulationDataProcessor {
 
@@ -24,15 +25,19 @@ public class PopulationDataProcessor {
         Optional<PopulationScrapParameter> parameterOptional = populationScrapParameterGenerator.generate();
 
         while ((parameterOptional = populationScrapParameterGenerator.generate()).isPresent()) {
-            PopulationScrapParameter parameter = parameterOptional.get();
-            PopulationScrapLoggerBuilder.PopulationScrapLogger logger = loggerBuilder.build(parameter);
-            logger.start();
-
-            List<PopulationScrapData> populationScrapData = populationScraper.scrap(parameter);
-            populationDataRegister.save(populationScrapData);
-
-            logger.end();
+            runSingleCycle(parameterOptional.get());
         }
+    }
+
+    @Transactional
+    private void runSingleCycle(PopulationScrapParameter parameter) {
+        PopulationScrapLoggerBuilder.PopulationScrapLogger logger = loggerBuilder.build(parameter);
+        logger.start();
+
+        List<PopulationScrapData> populationScrapData = populationScraper.scrap(parameter);
+        populationDataRegister.save(populationScrapData);
+
+        logger.end();
     }
 
 

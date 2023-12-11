@@ -55,8 +55,8 @@ public class PopulationScrapParameterGenerator {
 
 //        결과를 lv, stdgCd 순으로 정렬한다.
         List<Population> sortedList = currentResults.stream()
-                .sorted(Comparator.comparing(Population::getLv))
                 .sorted(Comparator.comparing(Population::getStdgCd))
+                .sorted(Comparator.comparing(Population::getLv))
                 .toList();
 
 

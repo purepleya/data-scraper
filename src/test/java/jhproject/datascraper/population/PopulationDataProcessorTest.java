@@ -54,7 +54,7 @@ class PopulationDataProcessorTest {
 
         when(populationScrapParameterGenerator.generate()).thenAnswer(invocation -> {
             var parameter = defaultPopulationScrapParameterGenerator.generate();
-            if (parameter.isPresent() && parameter.get().getRegSeCd() > 1) {
+            if (parameter.isPresent() && parameter.get().getLv() > PopulationScrapParameter.lvs[2]) {
                 return Optional.empty();
             } else {
                 return parameter;
@@ -70,6 +70,13 @@ class PopulationDataProcessorTest {
         assertThat(
                 scrapLogs.stream().map(PopulationScrapLog::getLv).filter(lv -> lv >= PopulationScrapParameter.lvs[PopulationScrapParameter.lvs.length - 1]).count()
         ).isGreaterThan(0);
+        assertThat(
+                scrapLogs.stream().map(PopulationScrapLog::getLv).filter(lv -> lv == PopulationScrapParameter.lvs[1]).count()
+        ).isGreaterThan(17);
+
+        assertThat(
+                scrapLogs.stream().map(PopulationScrapLog::getLv).filter(lv -> lv == PopulationScrapParameter.lvs[2]).count()
+        ).isGreaterThan(260);
     }
 
 

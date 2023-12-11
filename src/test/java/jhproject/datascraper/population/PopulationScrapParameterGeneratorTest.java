@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
@@ -258,6 +259,80 @@ class PopulationScrapParameterGeneratorTest {
         assertEquals(nextParameterOptional.get().getRegSeCd(), nextParameterOptional.get().getRegSeCd());
     }
 
+
+    @Test
+    @DisplayName("예상 시나리오 테스트")
+    void normal_scenario_test() {
+        PopulationScrapParameter lv1Parameter = PopulationScrapParameter.first();
+        when(populationScrapLogRepository.getLastLog())
+                .thenReturn(Optional.of(new PopulationScrapLog(lv1Parameter.getYearMonth(), lv1Parameter.getStdgCd(), lv1Parameter.getLv(), lv1Parameter.getRegSeCd(), LocalDateTime.now(), LocalDateTime.now())));
+        when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
+                .thenReturn(List.of(
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm")
+                ));
+
+        PopulationScrapParameterGenerator generator = new PopulationScrapParameterGenerator(populationRepository, populationScrapLogRepository);
+        Optional<PopulationScrapParameter> parameter111Optional = generator.generate();
+
+        assertThat(parameter111Optional.isPresent()).isTrue();
+        PopulationScrapParameter parameter111 = parameter111Optional.get();
+        assertThat(parameter111.getStdgCd()).isEqualTo("111");
+
+
+        when(populationScrapLogRepository.getLastLog())
+                .thenReturn(Optional.of(new PopulationScrapLog(parameter111.getYearMonth(), parameter111.getStdgCd(), parameter111.getLv(), parameter111.getRegSeCd(), LocalDateTime.now(), LocalDateTime.now())));
+        when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
+                .thenReturn(List.of(
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter111.getYearMonth(), (parameter111.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter111.getLv() + 1), "1111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter111.getYearMonth(), (parameter111.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter111.getLv() + 1), "1112", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm")
+                ));
+        Optional<PopulationScrapParameter> parameter222Optional = generator.generate();
+
+        assertThat(parameter222Optional.isPresent()).isTrue();
+        PopulationScrapParameter parameter222 = parameter222Optional.get();
+        assertThat(parameter222.getStdgCd()).isEqualTo("222");
+
+        when(populationScrapLogRepository.getLastLog())
+                .thenReturn(Optional.of(new PopulationScrapLog(parameter222.getYearMonth(), parameter222.getStdgCd(), parameter222.getLv(), parameter222.getRegSeCd(), LocalDateTime.now(), LocalDateTime.now())));
+        when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
+                .thenReturn(List.of(
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter111.getYearMonth(), (parameter111.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter111.getLv() + 1), "1111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter111.getYearMonth(), (parameter111.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter111.getLv() + 1), "1112", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter222.getYearMonth(), (parameter222.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter222.getLv() + 1), "2222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm")
+                ));
+        Optional<PopulationScrapParameter> parameter333Optional = generator.generate();
+
+        assertThat(parameter333Optional.isPresent()).isTrue();
+        PopulationScrapParameter parameter333 = parameter333Optional.get();
+        assertThat(parameter333.getStdgCd()).isEqualTo("333");
+
+        when(populationScrapLogRepository.getLastLog())
+                .thenReturn(Optional.of(new PopulationScrapLog(parameter333.getYearMonth(), parameter333.getStdgCd(), parameter333.getLv(), parameter333.getRegSeCd(), LocalDateTime.now(), LocalDateTime.now())));
+        when(populationRepository.findByYearMonthAndRegSeCdAndGoeLv(anyString(), any(), any()))
+                .thenReturn(List.of(
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(lv1Parameter.getYearMonth(), (lv1Parameter.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (lv1Parameter.getLv() + 1), "333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 2, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 2, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter111.getYearMonth(), (parameter111.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter111.getLv() + 1), "1111", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter111.getYearMonth(), (parameter111.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter111.getLv() + 1), "1112", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter222.getYearMonth(), (parameter222.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter222.getLv() + 1), "2222", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter333.getYearMonth(), (parameter333.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter333.getLv() + 1), "3333", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm"),
+                        new Population(parameter333.getYearMonth(), (parameter333.getRegSeCd()), "ctpvNm", "dongNm", "tong", "ban", "liNm", (parameter333.getLv() + 1), "3331", "stdgNm", "sggNm", "admmCd", 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11 ,12, 13, 14, 15, 3, 17, 18, 19, 20, 21 ,22, 23, 24, 25, "statsYm")
+                ));
+        Optional<PopulationScrapParameter> parameter1111Optional = generator.generate();
+
+        assertThat(parameter1111Optional.isPresent()).isTrue();
+        PopulationScrapParameter parameter1111 = parameter1111Optional.get();
+        assertThat(parameter1111.getStdgCd()).isEqualTo("1111");
+    }
 
 
 }
