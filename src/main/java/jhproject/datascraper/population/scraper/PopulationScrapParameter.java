@@ -76,7 +76,7 @@ public class PopulationScrapParameter {
                 String.valueOf(this.lv),
                 String.valueOf(this.regSeCd),
                 "JSON",
-                "100",
+                "150",
                 this.pageNo
         );
     }

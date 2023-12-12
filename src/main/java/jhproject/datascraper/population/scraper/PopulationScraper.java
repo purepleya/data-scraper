@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Component
@@ -30,7 +31,7 @@ public class PopulationScraper {
         List<PopulationScrapData> result = convert(parameter, response);
 
         try {
-            Thread.sleep(300L);
+            TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
